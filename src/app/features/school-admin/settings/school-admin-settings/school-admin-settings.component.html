@@ -1,0 +1,72 @@
+ <div class="settings-page animate__animated animate__fadeIn">
+      <div class="mb-4">
+        <h1 class="h3 mb-1">School Settings</h1>
+        <p class="text-muted mb-0">Configure your school's settings and theme</p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="card border-0">
+            <div class="card-header bg-transparent">
+              <h5 class="card-title mb-0">School Theme</h5>
+            </div>
+            <div class="card-body">
+              <form [formGroup]="themeForm" (ngSubmit)="saveTheme()">
+                <div class="mb-3">
+                  <label class="form-label">Color Presets</label>
+                  <div class="theme-presets">
+                    <div class="theme-option" *ngFor="let preset of themePresets | keyvalue" 
+                         (click)="selectPreset(preset.key)"
+                         [class.active]="selectedPreset === preset.key">
+                      <!-- <div class="theme-preview" [style.background]="'linear-gradient(135deg, ' + preset.value.primaryColor + ', ' + preset.value.secondaryColor + ')'"></div>
+                      <span class="theme-name">{{preset.key | titlecase}}</span> -->
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="primaryColor" class="form-label">Primary Color</label>
+                  <input type="color" class="form-control form-control-color" id="primaryColor" formControlName="primaryColor">
+                </div>
+
+                <div class="mb-3">
+                  <label for="secondaryColor" class="form-label">Secondary Color</label>
+                  <input type="color" class="form-control form-control-color" id="secondaryColor" formControlName="secondaryColor">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Save Theme</button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="card border-0">
+            <div class="card-header bg-transparent">
+              <h5 class="card-title mb-0">School Information</h5>
+            </div>
+            <div class="card-body">
+              <form>
+                <div class="mb-3">
+                  <label for="schoolName" class="form-label">School Name</label>
+                  <input type="text" class="form-control" id="schoolName" value="Greenwood High School">
+                </div>
+                <div class="mb-3">
+                  <label for="address" class="form-label">Address</label>
+                  <textarea class="form-control" id="address" rows="3">123 Main Street, Downtown, City 12345</textarea>
+                </div>
+                <div class="mb-3">
+                  <label for="phone" class="form-label">Phone</label>
+                  <input type="tel" class="form-control" id="phone" value="+1 (555) 123-4567">
+                </div>
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email</label>
+                  <input type="email" class="form-control" id="email" value="info@greenwood.edu">
+                </div>
+                <button type="submit" class="btn btn-outline-primary">Update Information</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

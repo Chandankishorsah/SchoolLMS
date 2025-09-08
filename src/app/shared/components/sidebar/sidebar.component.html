@@ -1,0 +1,36 @@
+<nav class="sidebar" [class.collapsed]="collapsed">
+      <div class="sidebar-content">
+        <ul class="nav flex-column">
+          <li class="nav-item" *ngFor="let item of getMenuItems()">
+            <a 
+              class="nav-link"
+              [routerLink]="item.route"
+              routerLinkActive="active"
+              [title]="collapsed ? item.label : ''"
+              *ngIf="!item.children">
+              <i [class]="item.icon"></i>
+              <span class="nav-text" *ngIf="!collapsed">{{item.label}}</span>
+            </a>
+            
+            <!-- Submenu items -->
+            <div class="nav-submenu" *ngIf="item.children">
+              <div class="nav-submenu-header" [title]="collapsed ? item.label : ''">
+                <i [class]="item.icon"></i>
+                <span class="nav-text" *ngIf="!collapsed">{{item.label}}</span>
+              </div>
+              <ul class="nav flex-column ms-3" *ngIf="!collapsed">
+                <li class="nav-item" *ngFor="let child of item.children">
+                  <a 
+                    class="nav-link nav-link-sm"
+                    [routerLink]="child.route"
+                    routerLinkActive="active">
+                    <i [class]="child.icon"></i>
+                    <span class="nav-text">{{child.label}}</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </nav>

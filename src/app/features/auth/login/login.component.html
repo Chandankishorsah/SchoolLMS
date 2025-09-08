@@ -1,0 +1,88 @@
+<div class="auth-container">
+  <div class="auth-card" style="max-width: 450px; width: 100%;">
+    <div class="p-5">
+      <div class="text-center mb-4">
+        <div class="mb-3">
+          <i class="fas fa-graduation-cap text-primary" style="font-size: 3rem;"></i>
+        </div>
+        <h2 class="h3 fw-bold mb-2">School Fees Management</h2>
+        <p class="text-muted">Sign in to your account</p>
+      </div>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="fade-in-up">
+        <div class="form-floating mb-3">
+          <input 
+            type="email" 
+            class="form-control" 
+            id="email" 
+            placeholder="Email"
+            formControlName="email"
+            [class.is-invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+          <label for="email">Email Address</label>
+          <div class="invalid-feedback" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+            Please enter a valid email address
+          </div>
+        </div>
+
+        <div class="form-floating mb-4">
+          <input 
+            type="password" 
+            class="form-control" 
+            id="password" 
+            placeholder="Password"
+            formControlName="password"
+            [class.is-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+          <label for="password">Password</label>
+          <div class="invalid-feedback" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+            Password is required
+          </div>
+        </div>
+
+        <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+          <i class="fas fa-exclamation-triangle me-2"></i>
+          {{ errorMessage }}
+        </div>
+
+        <button 
+          type="submit" 
+          class="btn btn-primary w-100 mb-3"
+          [disabled]="loginForm.invalid || isLoading">
+          <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2" role="status"></span>
+          <i *ngIf="!isLoading" class="fas fa-sign-in-alt me-2"></i>
+          {{ isLoading ? 'Signing In...' : 'Sign In' }}
+        </button>
+
+        <div class="text-center">
+          <p class="text-muted mb-2">Don't have an account?</p>
+          <a routerLink="/register" class="text-decoration-none">
+            <i class="fas fa-user-plus me-1"></i>
+            Create Account
+          </a>
+        </div>
+      </form>
+
+      <div class="mt-4 pt-4 border-top">
+        <p class="text-muted text-center mb-2">
+          <small>Demo Accounts:</small>
+        </p>
+        <div class="row g-2">
+          <div class="col-4">
+            <button class="btn btn-outline-primary btn-sm w-100" (click)="setDemoCredentials('super')">
+              Super Admin
+            </button>
+          </div>
+          <div class="col-4">
+            <button class="btn btn-outline-success btn-sm w-100" (click)="setDemoCredentials('school')">
+              School Admin
+            </button>
+          </div>
+          <div class="col-4">
+            <button class="btn btn-outline-info btn-sm w-100" (click)="setDemoCredentials('parent')">
+              Parent
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

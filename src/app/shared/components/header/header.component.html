@@ -1,0 +1,51 @@
+<header class="header navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+      <div class="container-fluid">
+        <button 
+          class="btn btn-outline-light me-3 sidebar-toggle"
+          type="button"
+          (click)="toggleSidebar.emit()">
+          <i class="fas fa-bars"></i>
+        </button>
+        
+        <a class="navbar-brand fw-bold" href="#">
+          <i class="fas fa-graduation-cap me-2"></i>
+          School Fees Portal
+        </a>
+        
+        <div class="navbar-nav ms-auto">
+          <div class="nav-item dropdown" *ngIf="currentUser">
+            <a class="nav-link dropdown-toggle d-flex align-items-center" 
+               href="#" 
+               id="navbarDropdown" 
+               role="button" 
+               data-bs-toggle="dropdown">
+              <div class="user-avatar me-2">
+                <i class="fas fa-user-circle"></i>
+              </div>
+              <div class="user-info d-none d-md-block">
+                <!-- <div class="user-name">{{currentUser.firstName}} {{currentUser.lastName}}</div> -->
+                <small class="user-role text-light-emphasis">{{getUserRole(currentUser.role)}}</small>
+              </div>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end animate__animated animate__fadeIn">
+              <li>
+                <a class="dropdown-item" href="#">
+                  <i class="fas fa-user me-2"></i>Profile
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="#" *ngIf="currentUser.role !== 'parent'">
+                  <i class="fas fa-cog me-2"></i>Settings
+                </a>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <a class="dropdown-item text-danger" href="#" (click)="logout()">
+                  <i class="fas fa-sign-out-alt me-2"></i>Logout
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>

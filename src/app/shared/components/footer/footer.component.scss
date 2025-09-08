@@ -1,0 +1,25 @@
+ .footer {
+      background: rgba(248, 249, 250, 0.95);
+      backdrop-filter: blur(10px);
+      font-size: 0.875rem;
+    }
+    
+    .footer a {
+      color: var(--bs-primary);
+      transition: color 0.3s ease;
+    }
+    
+    .footer a:hover {
+      color: var(--bs-secondary);
+    }
+    
+    @media (max-width: 768px) {
+      .footer .col-md-6 {
+        text-align: center !important;
+        margin-bottom: 0.5rem;
+      }
+      
+      .footer .col-md-6:last-child {
+        margin-bottom: 0;
+      }
+    }
