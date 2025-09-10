@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { FooterComponent } from "../../shared/components/footer/footer.component";
 import { SidebarComponent } from "../../shared/components/sidebar/sidebar.component";
 import { HeaderComponent } from "../../shared/components/header/header.component";
+import { User } from '../../core/models/user.model';
 
 @Component({
   selector: 'app-main-layout',
@@ -19,7 +20,7 @@ private themeService = inject(ThemeService);
   private authService = inject(AuthService);
   
   sidebarCollapsed = false;
-
+currentUser:any;
   ngOnInit(): void {
     // Initialize theme based on user role and school settings
     this.initializeTheme();
@@ -31,6 +32,8 @@ private themeService = inject(ThemeService);
 
   private initializeTheme(): void {
     const user = this.authService.currentUser;
+    this.currentUser=this.authService.currentUser
+  console.log('Current User:', user);
     if (user?.schoolId) {
       // In a real app, fetch school theme and call this.themeService.setTheme(...)
       // ThemeService already applies saved/default theme on init

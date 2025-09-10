@@ -19,8 +19,8 @@ private fb = inject(FormBuilder);
   selectedPreset = 'indigo';
 
   constructor() {
-    this.themePresets = this.themeService.getThemePresets();
-    const currentTheme = this.themeService.getCurrentTheme();
+    this.themePresets = this.themeService.resetToDefault();
+    const currentTheme = this.themeService.currentTheme$.subscribe(theme => theme) as any;
     
     this.themeForm = this.fb.group({
       primaryColor: [currentTheme.primaryColor],

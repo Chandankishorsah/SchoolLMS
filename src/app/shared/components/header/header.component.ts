@@ -1,21 +1,23 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, inject, Output } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { RouterLink, RouterModule } from '@angular/router';
 import { User } from '../../../core/models/user.model';
 import { AuthService } from '../../../core/services/auth/auth.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
- @Output() toggleSidebar = new EventEmitter<void>();
-  
-  private authService = inject(AuthService);
+  private authService = inject(AuthService);  
+   @Input() pageTitle = 'Dashboard';
+  @Output() toggleSidebar = new EventEmitter<void>();
+
   currentUser: User | null = null;
+  currentDateTime = new Date();
 
   constructor() {
     this.authService.currentUser$.subscribe(user => {
@@ -23,16 +25,17 @@ export class HeaderComponent {
     });
   }
 
-  getUserRole(role: string): string {
-    switch (role) {
-      case 'super-admin': return 'Super Admin';
-      case 'school-admin': return 'School Admin';
-      case 'parent': return 'Parent';
-      default: return role;
-    }
+  getUserRoleDisplay(): string {
+    const roleMap: { [key: string]: string } = {
+      'super-admin': 'Super Admin',
+      'school-admin': 'School Admin',
+      'parent': 'Parent'
+    };
+    return roleMap[this.currentUser?.role || ''] || '';
   }
 
-  logout(): void {
+  logout(event: Event) {
+    event.preventDefault();
     this.authService.logout();
   }
 }

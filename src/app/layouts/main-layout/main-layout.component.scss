@@ -5,12 +5,12 @@
     
     .layout-container {
       display: flex;
-      padding-top: 60px; /* Account for fixed header */
+       /* Account for fixed header */
     }
     
     .main-content {
       flex: 1;
-      margin-left: 250px;
+      // margin-left: 250px;
       transition: margin-left 0.3s ease;
       min-height: calc(100vh - 60px);
       display: flex;

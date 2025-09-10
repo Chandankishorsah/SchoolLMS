@@ -1,51 +1,46 @@
-<header class="header navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
-      <div class="container-fluid">
+ <header class="header">
+      <div class="d-flex align-items-center">
         <button 
-          class="btn btn-outline-light me-3 sidebar-toggle"
-          type="button"
+          class="btn btn-outline-secondary me-3" 
           (click)="toggleSidebar.emit()">
           <i class="fas fa-bars"></i>
         </button>
         
-        <a class="navbar-brand fw-bold" href="#">
-          <i class="fas fa-graduation-cap me-2"></i>
-          School Fees Portal
-        </a>
-        
-        <div class="navbar-nav ms-auto">
-          <div class="nav-item dropdown" *ngIf="currentUser">
-            <a class="nav-link dropdown-toggle d-flex align-items-center" 
-               href="#" 
-               id="navbarDropdown" 
-               role="button" 
-               data-bs-toggle="dropdown">
-              <div class="user-avatar me-2">
-                <i class="fas fa-user-circle"></i>
+        <div class="d-none d-md-block">
+          <h5 class="mb-0 text-dark fw-semibold">{{ pageTitle }}</h5>
+          <small class="text-muted">{{ currentDateTime | date:'medium' }}</small>
+        </div>
+      </div>
+
+      <div class="d-flex align-items-center">
+        <div class="dropdown">
+          <button 
+            class="btn btn-link text-decoration-none p-0 dropdown-toggle" 
+            type="button" 
+            id="userDropdown" 
+            data-bs-toggle="dropdown">
+            <div class="d-flex align-items-center">
+              <div class="avatar me-2">
+                <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center" 
+                     style="width: 40px; height: 40px;">
+                  <i class="fas fa-user text-white"></i>
+                </div>
               </div>
-              <div class="user-info d-none d-md-block">
-                <!-- <div class="user-name">{{currentUser.firstName}} {{currentUser.lastName}}</div> -->
-                <small class="user-role text-light-emphasis">{{getUserRole(currentUser.role)}}</small>
+              <div class="d-none d-md-block text-start">
+                <div class="fw-semibold text-dark">{{ currentUser?.name }}</div>
+                <small class="text-muted">{{ getUserRoleDisplay() }}</small>
               </div>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end animate__animated animate__fadeIn">
-              <li>
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-user me-2"></i>Profile
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#" *ngIf="currentUser.role !== 'parent'">
-                  <i class="fas fa-cog me-2"></i>Settings
-                </a>
-              </li>
-              <li><hr class="dropdown-divider"></li>
-              <li>
-                <a class="dropdown-item text-danger" href="#" (click)="logout()">
-                  <i class="fas fa-sign-out-alt me-2"></i>Logout
-                </a>
-              </li>
-            </ul>
-          </div>
+            </div>
+          </button>
+          
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><h6 class="dropdown-header">Account</h6></li>
+            <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Profile</a></li>
+            <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Settings</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item text-danger" href="#" (click)="logout($event)">
+              <i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+          </ul>
         </div>
       </div>
     </header>

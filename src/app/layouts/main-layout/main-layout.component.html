@@ -2,7 +2,12 @@
       <app-header (toggleSidebar)="toggleSidebar()"></app-header>
       
       <div class="layout-container">
-        <app-sidebar [collapsed]="sidebarCollapsed"></app-sidebar>
+        
+         <app-sidebar 
+        [isCollapsed]="sidebarCollapsed" 
+        [userRole]="currentUser?.role"
+        (toggleSidebar)="toggleSidebar()">
+      </app-sidebar>
         
         <main class="main-content" [class.sidebar-collapsed]="sidebarCollapsed">
           <div class="container-fluid p-4">
