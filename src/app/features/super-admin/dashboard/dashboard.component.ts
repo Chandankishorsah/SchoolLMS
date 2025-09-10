@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 interface DashboardStats {
   totalSchools: number;
   totalStudents: number;
@@ -19,11 +19,12 @@ interface RecentActivity {
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent {
+  router= inject(Router);
   stats: DashboardStats = {
     totalSchools: 0,
     totalStudents: 0,
@@ -95,4 +96,10 @@ export class DashboardComponent {
       default: return 'secondary';
     }
   }
+SchoolSettings(url: any) {
+  this.router.navigateByUrl('/super-admin/schools/' + url);
 }
+
+}
+
+

@@ -13,7 +13,8 @@ import { AuthService } from '../../../core/services/auth/auth.service';
 })
 export class HeaderComponent {
   private authService = inject(AuthService);  
-   @Input() pageTitle = 'Dashboard';
+  @Input() pageTitle = 'School Fees Management';
+
   @Output() toggleSidebar = new EventEmitter<void>();
 
   currentUser: User | null = null;

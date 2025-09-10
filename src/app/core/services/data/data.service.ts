@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of, delay } from 'rxjs';
 import { FeeRecord } from '../../models/fee.model';
 import { School, Student } from '../../models/school.model';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -138,7 +139,7 @@ export class DataService {
     }
   ];
 
-  constructor() {}
+  constructor(private http:HttpClient) {}
 
   // Schools
   getSchools(): Observable<School[]> {
@@ -251,5 +252,12 @@ export class DataService {
     }
 
     return of(chartData).pipe(delay(600));
+  }
+
+  GetAllSates() {
+    return this.http.get('https://restindia.herokuapp.com/state/all')
+  }
+  GetAllCities(state:any) {
+    return this.http.get(`https://restindia.herokuapp.com/cities?state=${state}`)
   }
 }
