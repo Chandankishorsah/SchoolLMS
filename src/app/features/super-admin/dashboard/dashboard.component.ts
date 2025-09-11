@@ -1,6 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../../core/services/auth/auth.service';
+import { DataService } from '../../../core/services/data/data.service';
+import { ChartsComponent } from '../../../shared/components/charts/charts.component';
 interface DashboardStats {
   totalSchools: number;
   totalStudents: number;
@@ -19,87 +22,61 @@ interface RecentActivity {
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ChartsComponent],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss'
+  styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent {
-  router= inject(Router);
-  stats: DashboardStats = {
-    totalSchools: 0,
-    totalStudents: 0,
-    totalRevenue: 0,
-    pendingPayments: 0
+  dashboardStats: any;
+  schools: any[] = [];
+
+  monthlyChartConfig = {
+    type: 'line' as const,
+    data: [45000, 52000, 48000, 61000, 58000, 67000],
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+    title: 'Monthly Collection Trend',
   };
 
-  recentActivities: RecentActivity[] = [];
-  
-  mockSchools = [
-    { name: 'Greenwood High School', location: 'Downtown', students: 1250, revenue: 125000, status: 'Active', statusColor: 'success' },
-    { name: 'Sunrise Elementary', location: 'Suburbia', students: 800, revenue: 80000, status: 'Active', statusColor: 'success' },
-    { name: 'Oak Valley Academy', location: 'North Side', students: 950, revenue: 95000, status: 'Pending', statusColor: 'warning' },
-    { name: 'Pine Tree School', location: 'East District', students: 600, revenue: 60000, status: 'Active', statusColor: 'success' }
-  ];
+  statusChartConfig = {
+    type: 'doughnut' as const,
+    data: [75, 25],
+    labels: ['Collected', 'Outstanding'],
+    title: 'Collection Status',
+  };
 
-  ngOnInit(): void {
+  constructor(
+    private dataService: DataService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
+
+  ngOnInit() {
     this.loadDashboardData();
-    this.loadRecentActivities();
+    this.loadSchools();
   }
 
-  private loadDashboardData(): void {
-    this.stats = {
-      totalSchools: 15,
-      totalStudents: 12450,
-      totalRevenue: 1245000,
-      pendingPayments: 45
-    };
+  loadDashboardData() {
+    this.dataService.getDashboardStats('super-admin').subscribe((stats) => {
+      this.dashboardStats = stats;
+    });
   }
 
-  private loadRecentActivities(): void {
-    this.recentActivities = [
-      {
-        id: '1',
-        type: 'payment',
-        message: 'Payment of $500 received from Greenwood High School',
-        timestamp: new Date(Date.now() - 1000 * 60 * 30),
-        school: 'Greenwood High School'
-      },
-      {
-        id: '2',
-        type: 'school_added',
-        message: 'New school "Valley Academy" registered',
-        timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2)
-      },
-      {
-        id: '3',
-        type: 'registration',
-        message: '25 new students registered across all schools',
-        timestamp: new Date(Date.now() - 1000 * 60 * 60 * 4)
-      }
-    ];
+  loadSchools() {
+    this.dataService.getSchools().subscribe((schools) => {
+      this.schools = schools;
+    });
   }
 
-  getActivityIcon(type: string): string {
-    switch (type) {
-      case 'payment': return 'fas fa-dollar-sign';
-      case 'school_added': return 'fas fa-school';
-      case 'registration': return 'fas fa-user-plus';
-      default: return 'fas fa-info';
-    }
+  getCollectionRate(school: any): number {
+    return school.totalFees > 0
+      ? (school.paidFees / school.totalFees) * 100
+      : 0;
   }
 
-  getActivityColor(type: string): string {
-    switch (type) {
-      case 'payment': return 'success';
-      case 'school_added': return 'primary';
-      case 'registration': return 'info';
-      default: return 'secondary';
-    }
+  trackBySchool(index: number, school: any): string {
+    return school.id;
   }
-SchoolSettings(url: any) {
-  this.router.navigateByUrl('/super-admin/schools/' + url);
+  SchoolSettings(url: any) {
+    this.router.navigateByUrl('/super-admin/schools/' + url);
+  }
 }
-
-}
-
-

@@ -11,7 +11,7 @@ import { User } from '../../core/models/user.model';
 @Component({
   selector: 'app-main-layout',
   standalone: true,
-  imports: [CommonModule, RouterModule, FooterComponent, SidebarComponent, HeaderComponent],
+  imports: [CommonModule, RouterModule,FooterComponent, SidebarComponent, HeaderComponent],
   templateUrl: './main-layout.component.html',
   styleUrl: './main-layout.component.scss'
 })

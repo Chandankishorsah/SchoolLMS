@@ -255,7 +255,7 @@ export class DataService {
   }
 
   GetAllSates() {
-    return this.http.get('https://restindia.herokuapp.com/state/all')
+    return this.http.get('https://api.countrystatecity.in/v1/states')
   }
   GetAllCities(state:any) {
     return this.http.get(`https://restindia.herokuapp.com/cities?state=${state}`)

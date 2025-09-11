@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-export const routes: Routes = [
+export const superAdminRoutes: Routes = [
   {
     path: '',
     redirectTo: 'dashboard',
@@ -56,8 +56,5 @@ export const routes: Routes = [
       },
     ],
   },
-  {
-    path: '**',
-    redirectTo: 'dashboard',
-  },
+ 
 ];

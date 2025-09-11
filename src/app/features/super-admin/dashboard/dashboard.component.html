@@ -1,154 +1,121 @@
-<div class="super-admin-dashboard animate__animated animate__fadeIn">
-    <!-- Page Header -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h1 class="h3 mb-1">Super Admin Dashboard</h1>
-            <p class="text-muted mb-0">Manage all schools and monitor system performance</p>
+<div class="content">
+  <!-- Stats Cards -->
+  <div class="row g-4 mb-4" *ngIf="dashboardStats">
+    <div class="col-lg-3 col-md-6">
+      <div class="stats-card slide-in-left">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <h3 class="fw-bold mb-1">{{ dashboardStats.totalSchools }}</h3>
+            <p class="text-muted mb-0">Total Schools</p>
+          </div>
+          <div class="stats-icon bg-primary">
+            <i class="fas fa-school"></i>
+          </div>
         </div>
-        <div>
-            <button class="btn btn-primary" (click)="SchoolSettings('add')">
-                <i class="fas fa-plus me-2"></i>Add New School
-            </button>
-        </div>
+      </div>
     </div>
 
-    <!-- Stats Cards -->
-    <div class="row g-4 mb-4">
-        <div class="col-lg-3 col-md-6">
-            <div class="stats-card card border-0 h-100">
-                <div class="card-body p-4">
-                    <div class="d-flex align-items-center">
-                        <div class="stats-icon bg-primary">
-                            <i class="fas fa-school text-white"></i>
-                        </div>
-                        <div class="ms-3">
-                            <h3 class="mb-1">{{stats.totalSchools}}</h3>
-                            <p class="text-muted mb-0">Total Schools</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="col-lg-3 col-md-6">
+      <div class="stats-card slide-in-left" style="animation-delay: 0.1s;">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <h3 class="fw-bold mb-1">{{ dashboardStats.totalStudents | number }}</h3>
+            <p class="text-muted mb-0">Total Students</p>
+          </div>
+          <div class="stats-icon bg-success">
+            <i class="fas fa-user-graduate"></i>
+          </div>
         </div>
-
-        <div class="col-lg-3 col-md-6">
-            <div class="stats-card card border-0 h-100">
-                <div class="card-body p-4">
-                    <div class="d-flex align-items-center">
-                        <div class="stats-icon bg-success">
-                            <i class="fas fa-user-graduate text-white"></i>
-                        </div>
-                        <div class="ms-3">
-                            <h3 class="mb-1">{{stats.totalStudents | number}}</h3>
-                            <p class="text-muted mb-0">Total Students</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-3 col-md-6">
-            <div class="stats-card card border-0 h-100">
-                <div class="card-body p-4">
-                    <div class="d-flex align-items-center">
-                        <div class="stats-icon bg-warning">
-                            <i class="fas fa-dollar-sign text-white"></i>
-                        </div>
-                        <div class="ms-3">
-                            <h3 class="mb-1">${{stats.totalRevenue | number}}</h3>
-                            <p class="text-muted mb-0">Total Revenue</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-3 col-md-6">
-            <div class="stats-card card border-0 h-100">
-                <div class="card-body p-4">
-                    <div class="d-flex align-items-center">
-                        <div class="stats-icon bg-danger">
-                            <i class="fas fa-exclamation-triangle text-white"></i>
-                        </div>
-                        <div class="ms-3">
-                            <h3 class="mb-1">{{stats.pendingPayments}}</h3>
-                            <p class="text-muted mb-0">Pending Payments</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
 
-    <div class="row g-4">
-        <!-- Schools Overview -->
-        <div class="col-lg-8">
-            <div class="card border-0 h-100">
-                <div class="card-header bg-transparent border-0 pb-0">
-                    <h5 class="card-title mb-0">Schools Performance</h5>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>School Name</th>
-                                    <th>Students</th>
-                                    <th>Revenue</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let school of mockSchools">
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <div class="school-avatar me-3">
-                                                <i class="fas fa-school text-primary"></i>
-                                            </div>
-                                            <div>
-                                                <div class="fw-semibold">{{school.name}}</div>
-                                                <small class="text-muted">{{school.location}}</small>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>{{school.students}}</td>
-                                    <td class="text-success fw-semibold">${{school.revenue | number}}</td>
-                                    <td>
-                                        <span class="badge" [class]="'bg-' + school.statusColor">
-                                            {{school.status}}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <button class="btn btn-sm btn-outline-primary">View</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+    <div class="col-lg-3 col-md-6">
+      <div class="stats-card slide-in-left" style="animation-delay: 0.2s;">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <h3 class="fw-bold mb-1 text-success">{{ dashboardStats.totalFeesCollected | number }}</h3>
+            <p class="text-muted mb-0">Fees Collected</p>
+          </div>
+          <div class="stats-icon bg-success">
+            <i class="fas fa-dollar-sign"></i>
+          </div>
         </div>
-
-        <!-- Recent Activity -->
-        <div class="col-lg-4">
-            <div class="card border-0 h-100">
-                <div class="card-header bg-transparent border-0 pb-0">
-                    <h5 class="card-title mb-0">Recent Activity</h5>
-                </div>
-                <div class="card-body">
-                    <div class="activity-feed">
-                        <div class="activity-item" *ngFor="let activity of recentActivities">
-                            <div class="activity-icon" [class]="'bg-' + getActivityColor(activity.type)">
-                                <i [class]="getActivityIcon(activity.type)"></i>
-                            </div>
-                            <div class="activity-content">
-                                <p class="mb-1">{{activity.message}}</p>
-                                <small class="text-muted">{{activity.timestamp | date:'short'}}</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
+
+    <div class="col-lg-3 col-md-6">
+      <div class="stats-card slide-in-left" style="animation-delay: 0.3s;">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <h3 class="fw-bold mb-1 text-warning">{{ dashboardStats.totalFeesOutstanding | number }}</h3>
+            <p class="text-muted mb-0">Outstanding Fees</p>
+          </div>
+          <div class="stats-icon bg-warning">
+            <i class="fas fa-exclamation-triangle"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts Row -->
+  <div class="row g-4 mb-4">
+    <div class="col-lg-8">
+      <app-charts [config]="monthlyChartConfig" height="400px">
+      </app-charts>
+    </div>
+
+    <div class="col-lg-4">
+      <app-charts [config]="statusChartConfig" height="350px">
+      </app-charts>
+    </div>
+  </div>
+
+  <!-- Schools Table -->
+  <div class="custom-table fade-in-up" style="animation-delay: 0.3s;">
+    <div class="p-4">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="fw-bold mb-4">Schools Overview</h5>
+
+
+        <button class="btn btn-primary" (click)="SchoolSettings('add')">
+          <i class="fas fa-plus me-2"></i>Add New School
+        </button>
+
+      </div>
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>School Name</th>
+              <th>Students</th>
+              <th>Total Fees</th>
+              <th>Collected</th>
+              <th>Outstanding</th>
+              <th>Collection Rate</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let school of schools; trackBy: trackBySchool">
+              <td>{{ school.name }}</td>
+              <td>{{ school.totalStudents | number }}</td>
+              <td>${{ school.totalFees | number }}</td>
+              <td class="text-success">{{ school.paidFees | number }}</td>
+              <td class="text-warning">{{ school.unpaidFees | number }}</td>
+              <td>{{ getCollectionRate(school) | number:'1.0-0' }}%</td>
+              <td>
+                <span class="badge"
+                  [class]="getCollectionRate(school) > 80 ? 'bg-success' : getCollectionRate(school) > 60 ? 'bg-warning' : 'bg-danger'">
+                  {{ getCollectionRate(school) > 80 ? 'Excellent' : getCollectionRate(school) > 60 ? 'Good' : 'Needs
+                  Attention' }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
 </div>

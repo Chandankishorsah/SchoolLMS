@@ -4,7 +4,7 @@ import { authGuard } from './core/guards/auth/auth.guard';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: 'auth/login',
     pathMatch: 'full',
   },
   {
@@ -41,7 +41,7 @@ export const routes: Routes = [
       import('./layouts/main-layout/main-layout.component').then(
         (m) => m.MainLayoutComponent
       ),
-    // canActivate: [authGuard
+    // canActivate: [authGuard], // ✅ future me enable karna
     children: [
       {
         path: 'dashboard',
@@ -52,27 +52,21 @@ export const routes: Routes = [
       },
       {
         path: 'super-admin',
-        // loadChildren: () => import('./features/super-admin/super-admin.routes').then(m => m.routes),
         loadChildren: () =>
           import('./features/super-admin/super-admin.routes').then(
-            (m) => m.routes
+            (m) => m.superAdminRoutes
           ),
-        // canActivate: [authGuard],
       },
-      //   {
-      //     path: 'school-admin',
-      //     loadChildren: () => import('./features/school-admin/school-admin.routes').then(m => m.routes),
-      //     canActivate: [authGuard]
-      //   },
-      //   {
-      //     path: 'parent',
-      //     loadChildren: () => import('./features/parent/parent.routes').then(m => m.routes),
-      //     canActivate: [authGuard]
-      //   }
+      {
+        path:'school-admin',
+        loadChildren: () => import('./features/school-admin/school-admin.routes').then(m => m.schoolAdminRoutes)
+
+      }
+      // yaha school-admin / parent bhi add kar sakta hai
     ],
   },
   {
     path: '**',
-    redirectTo: 'dashboard',
+    redirectTo: 'auth/login',
   },
 ];

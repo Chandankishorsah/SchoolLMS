@@ -9,7 +9,8 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 
 export const appConfig: ApplicationConfig = {
   providers: [ importProvidersFrom(BrowserModule, ReactiveFormsModule),
-    provideRouter(routes, withRouterConfig({ onSameUrlNavigation: 'reload' })),
-    provideHttpClient(withInterceptorsFromDi()),
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideRouter(routes),provideHttpClient(),
+    // provideHttpClient(withInterceptorsFromDi()),
     provideAnimations()]
 };

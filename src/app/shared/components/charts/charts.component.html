@@ -1,11 +1,7 @@
-<!-- <div class="chart-container">
-      <h6 *ngIf="config.title" class="chart-title mb-3">{{config.title}}</h6>
-      <div class="chart-wrapper">
-        <canvas 
-          baseChart
-          [data]="chartData"
-          [type]="config.type"
-          [options]="chartOptions">
-        </canvas>
-      </div>
-    </div> -->
+<div [style.height]="height">
+  <canvas baseChart
+    [data]="chartData"
+    [options]="chartOptions"
+    [type]="config.type">
+  </canvas>
+</div>

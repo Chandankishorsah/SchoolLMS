@@ -1,65 +1,116 @@
-<div class="container mt-4">
-  <h2 class="mb-3">Add New School</h2>
+<div class="container mt-5">
+  <h2 class="mb-4 text-center">🌟 Add New School</h2>
 
-  <form [formGroup]="schoolForm" (ngSubmit)="onSubmit()" novalidate>
-    <div class="mb-3">
-      <label class="form-label">School Name</label>
-      <input type="text" class="form-control" formControlName="schoolName" />
-      <div *ngIf="isSubmitted && f.schoolName.errors" class="text-danger">
-        School name is required (min 3 characters).
+  <form [formGroup]="schoolForm" (ngSubmit)="onSubmit()" novalidate class="animated-form">
+
+    <!-- Row 1 -->
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label for="schoolName" class="form-label">School Name</label>
+        <input id="schoolName" type="text" class="form-control animated-input" formControlName="schoolName" />
+        <div *ngIf="isSubmitted && f.schoolName.errors" class="text-danger small mt-1">
+          School name is required (min 3 characters).
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <label for="logo" class="form-label">Logo</label>
+        <input id="logo" type="file" class="form-control animated-input" (change)="onFileChange($event)" />
+        <div *ngIf="isSubmitted && f.logo.errors" class="text-danger small mt-1">
+          Logo is required.
+        </div>
       </div>
     </div>
 
-    <div class="mb-3">
-      <label class="form-label">Address</label>
-      <textarea class="form-control" formControlName="address"></textarea>
-      <div *ngIf="isSubmitted && f.address.errors" class="text-danger">
+    <!-- Address -->
+    <div class="mb-3 mt-3">
+      <label for="address" class="form-label">Address</label>
+      <textarea id="address" class="form-control animated-input" formControlName="address"></textarea>
+      <div *ngIf="isSubmitted && f.address.errors" class="text-danger small mt-1">
         Address is required.
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-md-6 mb-3">
-        <label class="form-label">City</label>
-        <input type="text" class="form-control" formControlName="city" />
-        <div *ngIf="isSubmitted && f.city.errors" class="text-danger">
-          City is required.
+    <!-- Row 2 -->
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label for="state" class="form-label">State</label>
+        <input id="state" type="text" class="form-control animated-input" formControlName="state" />
+        <div *ngIf="isSubmitted && f.state.errors" class="text-danger small mt-1">
+          State is required.
         </div>
       </div>
 
-      <div class="col-md-6 mb-3">
-        <label class="form-label">State</label>
-        <input type="text" class="form-control" formControlName="state" />
-        <div *ngIf="isSubmitted && f.state.errors" class="text-danger">
-          State is required.
+      <div class="col-md-6">
+        <label for="city" class="form-label">City</label>
+        <input id="city" type="text" class="form-control animated-input" formControlName="city" />
+        <div *ngIf="isSubmitted && f.city.errors" class="text-danger small mt-1">
+          City is required.
         </div>
       </div>
     </div>
 
-    <div class="mb-3">
-      <label class="form-label">Contact Number</label>
-      <input type="text" class="form-control" formControlName="contactNumber" />
-      <div *ngIf="isSubmitted && f.contactNumber.errors" class="text-danger">
+    <!-- Contact Number -->
+    <div class="mb-3 mt-3">
+      <label for="contactNumber" class="form-label">Contact Number</label>
+      <input id="contactNumber" type="text" class="form-control animated-input" formControlName="contactNumber" />
+      <div *ngIf="isSubmitted && f.contactNumber.errors" class="text-danger small mt-1">
         Enter a valid 10-digit contact number.
       </div>
     </div>
 
-    <div class="mb-3">
-      <label class="form-label">Email</label>
-      <input type="email" class="form-control" formControlName="email" />
-      <div *ngIf="isSubmitted && f.email.errors" class="text-danger">
-        Enter a valid email.
+    <!-- Row 3 -->
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label for="email" class="form-label">Email</label>
+        <input id="email" type="email" class="form-control animated-input" formControlName="email" />
+        <div *ngIf="isSubmitted && f.email.errors" class="text-danger small mt-1">
+          Enter a valid email.
+        </div>
+      </div>
+
+      <div class="col-md-6 position-relative">
+        <label for="password" class="form-label">Password</label>
+        <div class="input-group">
+          <input
+            id="password"
+            [type]="showPassword ? 'text' : 'password'"
+            class="form-control animated-input"
+            formControlName="password"
+          />
+          <button type="button" class="btn btn-outline-secondary" (click)="togglePassword()">
+            <i class="fa" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+          </button>
+        </div>
+        <div *ngIf="isSubmitted && f.password.errors" class="text-danger small mt-1">
+          Password is required (min 6 characters).
+        </div>
       </div>
     </div>
 
-    <div class="mb-3">
-      <label class="form-label">Principal Name</label>
-      <input type="text" class="form-control" formControlName="principalName" />
-      <div *ngIf="isSubmitted && f.principalName.errors" class="text-danger">
-        Principal name is required.
+    <!-- Row 4 -->
+    <div class="row g-3 mt-3">
+      <div class="col-md-6">
+        <label for="principalName" class="form-label">Principal Name</label>
+        <input id="principalName" type="text" class="form-control animated-input" formControlName="principalName" />
+        <div *ngIf="isSubmitted && f.principalName.errors" class="text-danger small mt-1">
+          Principal name is required.
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <label for="domain" class="form-label">Domain</label>
+        <input id="domain" type="text" class="form-control animated-input" formControlName="domain" />
+        <div *ngIf="isSubmitted && f.domain.errors" class="text-danger small mt-1">
+          Domain is required.
+        </div>
       </div>
     </div>
 
-    <button type="submit" class="btn btn-primary">Add School</button>
+    <!-- Submit Button -->
+    <div class="text-center mt-4">
+      <button type="submit" class="btn btn-primary btn-lg animated-submit">🌈 Add School</button>
+    </div>
+
   </form>
 </div>
