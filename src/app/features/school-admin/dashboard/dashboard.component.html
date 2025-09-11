@@ -1,1 +1,142 @@
-<p>dashboard works!</p>
+<div class="content">
+          <!-- Welcome Section -->
+          <div class="row mb-4">
+            <div class="col-12">
+              <div class="stats-card bg-primary text-white fade-in-up">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <h4 class="fw-bold mb-2">Welcome back, {{ currentUser?.name }}!</h4>
+                    <p class="mb-0 opacity-75">{{ currentUser?.schoolName }}</p>
+                  </div>
+                  <div>
+                    <i class="fas fa-school" style="font-size: 3rem; opacity: 0.3;"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stats Cards -->
+          <div class="row g-4 mb-4" *ngIf="dashboardStats">
+            <div class="col-lg-3 col-md-6">
+              <div class="stats-card slide-in-left">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <h3 class="fw-bold mb-1">{{ dashboardStats.totalStudents }}</h3>
+                    <p class="text-muted mb-0">Total Students</p>
+                  </div>
+                  <div class="stats-icon bg-info">
+                    <i class="fas fa-user-graduate"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+              <div class="stats-card slide-in-left" style="animation-delay: 0.1s;">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <h3 class="fw-bold mb-1 text-success">{{ dashboardStats.paidStudents }}</h3>
+                    <p class="text-muted mb-0">Paid Students</p>
+                  </div>
+                  <div class="stats-icon bg-success">
+                    <i class="fas fa-check-circle"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+              <div class="stats-card slide-in-left" style="animation-delay: 0.2s;">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <h3 class="fw-bold mb-1 text-warning">{{ dashboardStats.unpaidStudents }}</h3>
+                    <p class="text-muted mb-0">Unpaid Students</p>
+                  </div>
+                  <div class="stats-icon bg-warning">
+                    <i class="fas fa-clock"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+              <div class="stats-card slide-in-left" style="animation-delay: 0.3s;">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <h3 class="fw-bold mb-1">{{ dashboardStats.collectionRate | number:'1.0-0' }}%</h3>
+                    <p class="text-muted mb-0">Collection Rate</p>
+                  </div>
+                  <div class="stats-icon bg-primary">
+                    <i class="fas fa-percentage"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Charts Row -->
+          <div class="row g-4 mb-4">
+            <div class="col-lg-8">
+              <app-charts [config]="collectionChartConfig"></app-charts>
+            </div>
+
+            <div class="col-lg-4">
+              <app-charts [config]="statusChartConfig"></app-charts>
+            </div>
+          </div>
+
+          <!-- Recent Students Table -->
+          <div class="custom-table fade-in-up" style="animation-delay: 0.3s;">
+            <div class="p-4">
+              <h5 class="fw-bold mb-4">Student Fee Status</h5>
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Student</th>
+                      <th>Class</th>
+                      <th>Total Fees</th>
+                      <th>Paid Amount</th>
+                      <th>Outstanding</th>
+                      <th>Last Payment</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let student of students; trackBy: trackByStudent">
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="rounded-circle me-3 d-flex align-items-center justify-content-center"
+                               style="width: 40px; height: 40px; background: linear-gradient(45deg, #4ade80, #22c55e);">
+                            <i class="fas fa-user-graduate text-white"></i>
+                          </div>
+                          <div>
+                            <div class="fw-semibold">{{ student.name }}</div>
+                            <small class="text-muted">{{ student.email }}</small>
+                          </div>
+                        </div>
+                      </td>
+                      <td>{{ student.class }}</td>
+                      <td>\${{ student.totalFees | number }}</td>
+                      <td class="text-success">\${{ student.paidFees | number }}</td>
+                      <td class="text-warning">\${{ student.unpaidFees | number }}</td>
+                      <td>
+                        <span *ngIf="student.lastPayment">{{ student.lastPayment | date:'shortDate' }}</span>
+                        <span *ngIf="!student.lastPayment" class="text-muted">Never</span>
+                      </td>
+                      <td>
+                        <span class="badge" 
+                              [class]="student.status === 'paid' ? 'bg-success' : 
+                                      student.status === 'partial' ? 'bg-warning' : 'bg-danger'">
+                          {{ student.status | titlecase }}
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
