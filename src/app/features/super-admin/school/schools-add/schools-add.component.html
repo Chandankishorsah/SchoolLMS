@@ -1,7 +1,7 @@
 <div class="container mt-5">
   <h2 class="mb-4 text-center">🌟 Add New School</h2>
 
-  <form [formGroup]="schoolForm" (ngSubmit)="onSubmit()" novalidate class="animated-form">
+  <form [formGroup]="schoolForm"  novalidate class="animated-form">
 
     <!-- Row 1 -->
     <div class="row g-3">
@@ -109,7 +109,7 @@
 
     <!-- Submit Button -->
     <div class="text-center mt-4">
-      <button type="submit" class="btn btn-primary btn-lg animated-submit">🌈 Add School</button>
+      <button type="button" (click)="onSubmit()" class="btn btn-primary btn-lg animated-submit" [disabled]="schoolForm.invalid">🌈 Add School</button>
     </div>
 
   </form>
