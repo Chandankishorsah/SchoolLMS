@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { AuthService } from '../../../core/services/auth/auth.service';
-import { DataService } from '../../../core/services/data/data.service';
-import { ChartsComponent } from '../../../shared/components/charts/charts.component';
+import { AuthService } from '../../../../core/services/auth/auth.service';
+import { DataService } from '../../../../core/services/data/data.service';
+import { ChartsComponent } from '../../../../shared/components/charts/charts.component';
+
 interface DashboardStats {
   totalSchools: number;
   totalStudents: number;

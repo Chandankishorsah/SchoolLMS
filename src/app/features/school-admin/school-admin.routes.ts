@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { StudentsComponent } from './components/students/students.component';
+import { StudentAddComponent } from './components/student-add/student-add.component';
 
 
 export const schoolAdminRoutes: Routes = [
@@ -24,6 +25,9 @@ export const schoolAdminRoutes: Routes = [
     },
     {
         path: 'settings', loadComponent: () => import('./components/settings/school-admin-settings/school-admin-settings.component').then(m => m.SchoolAdminSettingsComponent)
+    },
+    {
+        path: 'student-add',component:StudentAddComponent
     }
 
 

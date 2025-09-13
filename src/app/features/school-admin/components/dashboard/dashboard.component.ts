@@ -1,8 +1,10 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../../core/services/auth/auth.service';
-import { DataService } from '../../../core/services/data/data.service';
-import { ChartsComponent, ChartConfig } from '../../../shared/components/charts/charts.component';
+import { AuthService } from '../../../../core/services/auth/auth.service';
+import { DataService } from '../../../../core/services/data/data.service';
+import { ChartsComponent, ChartConfig } from '../../../../shared/components/charts/charts.component';
+import { Router } from '@angular/router';
+
 // Use your ChartsComponent
 
 @Component({
@@ -22,7 +24,8 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private dataService: DataService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -79,5 +82,8 @@ export class DashboardComponent implements OnInit {
 
   trackByStudent(index: number, student: any): string {
     return student.id;
+  }
+  SchoolSettings(url: any) {
+    this.router.navigateByUrl('/school-admin/' + url);
   }
 }

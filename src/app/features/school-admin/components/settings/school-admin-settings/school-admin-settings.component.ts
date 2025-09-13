@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ThemeService } from '../../../../core/services/theme/theme.service';
+import { ThemeService } from '../../../../../core/services/theme/theme.service';
 
 @Component({
   selector: 'app-school-admin-settings',

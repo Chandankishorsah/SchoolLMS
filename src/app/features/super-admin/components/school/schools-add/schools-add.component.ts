@@ -6,8 +6,8 @@ import {
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { DataService } from '../../../../core/services/data/data.service';
 import { trigger, state, style, transition, animate, keyframes, query, stagger } from '@angular/animations';
+import { DataService } from '../../../../../core/services/data/data.service';
 
 @Component({
   selector: 'app-schools-add',
