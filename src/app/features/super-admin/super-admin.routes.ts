@@ -9,7 +9,7 @@ export const superAdminRoutes: Routes = [
   {
     path: 'dashboard',
     loadComponent: () =>
-      import('./dashboard/dashboard.component').then(
+      import('./components/dashboard/dashboard.component').then(
         (m) => m.DashboardComponent
       ),
   },
@@ -25,28 +25,28 @@ export const superAdminRoutes: Routes = [
       {
         path: 'manager',
         loadComponent: () =>
-          import('./school/schools-manager/schools-manager.component').then(
+          import('./components/school/schools-manager/schools-manager.component').then(
             (m) => m.SchoolsManagerComponent
           ),
       },
       {
         path: 'all',
         loadComponent: () =>
-          import('./school/schools-all/schools-all.component').then(
+          import('./components/school/schools-all/schools-all.component').then(
             (m) => m.SchoolsAllComponent
           ),
       },
       {
         path: 'add',
         loadComponent: () =>
-          import('./school/schools-add/schools-add.component').then(
+          import('./components/school/schools-add/schools-add.component').then(
             (m) => m.SchoolsAddComponent
           ),
       },
       {
         path: 'edit/:id',
         loadComponent: () =>
-          import('./school/schools-edit/schools-edit.component').then(
+          import('./components/school/schools-edit/schools-edit.component').then(
             (m) => m.SchoolsEditComponent
           ),
       },

@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
-import { StudentsComponent } from './students/students.component';
+import { StudentsComponent } from './components/students/students.component';
+
 
 export const schoolAdminRoutes: Routes = [
     {
@@ -10,7 +11,7 @@ export const schoolAdminRoutes: Routes = [
     {
         path: 'dashboard',
         loadComponent: () =>
-            import('./dashboard/dashboard.component').then(
+            import('./components/dashboard/dashboard.component').then(
                 (m) => m.DashboardComponent
             ),
     },
@@ -19,10 +20,10 @@ export const schoolAdminRoutes: Routes = [
 
     },
     {
-        path: 'fees', loadComponent: () => import('./fees/fees.component').then(m => m.FeesComponent)
+        path: 'fees', loadComponent: () => import('./components/fees/fees.component').then(m => m.FeesComponent)
     },
     {
-        path: 'settings', loadComponent: () => import('./settings/school-admin-settings/school-admin-settings.component').then(m => m.SchoolAdminSettingsComponent)
+        path: 'settings', loadComponent: () => import('./components/settings/school-admin-settings/school-admin-settings.component').then(m => m.SchoolAdminSettingsComponent)
     }
 
 
