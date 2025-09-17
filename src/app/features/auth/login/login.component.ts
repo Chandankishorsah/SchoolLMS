@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  loginForm: FormGroup;
+  loginForm:any= FormGroup;
   isLoading = false;
   errorMessage = '';
 
@@ -28,109 +28,65 @@ export class LoginComponent {
   }
 
   ngOnInit() {
-    console.log('Login component initialized'); // Debug
-    this.authService.getUserInfo(); // Debug - show current auth state
-    
-    // Redirect if already logged in
+    this.authService.getUserInfo();
+
     if (this.authService.isAuthenticated) {
-      console.log('User already authenticated, redirecting...'); // Debug
       this.redirectToDashboard();
     }
   }
 
-  setDemoCredentials(type: string) {
-    console.log('Setting demo credentials for:', type); // Debug
-    
-    const credentials = {
-      super: { email: 'superadmin@school.com', password: 'password' },
-      school: { email: 'schooladmin@greenwood.com', password: 'password' },
-      parent: { email: 'parent@example.com', password: 'password' }
-    };
-
-    const cred = credentials[type as keyof typeof credentials];
-    if (cred) {
-      this.loginForm.patchValue(cred);
-      console.log('Demo credentials set:', cred.email); // Debug
-    }
-  }
-
   onSubmit() {
-    if (this.loginForm.valid) {
-      this.isLoading = true;
-      this.errorMessage = '';
-
-      console.log('Starting login process...'); // Debug
-
-      this.authService.login(this.loginForm.value).subscribe({
-        next: (user) => {
-          console.log('Login component received user:', user); // Debug
-          this.isLoading = false;
-          
-          // Small delay to ensure user data is properly set
-          setTimeout(() => {
-            this.authService.getUserInfo(); // Debug - show updated auth state
-            this.redirectToDashboard();
-          }, 100);
-        },
-        error: (error) => {
-          console.error('Login component error:', error); // Debug
-          this.isLoading = false;
-          this.errorMessage = error.message;
-        }
-      });
-    } else {
-      console.warn('Login form is invalid:', this.loginForm.errors); // Debug
+    if (this.loginForm.invalid) {
+      console.warn('Login form is invalid:', this.loginForm.errors);
+      return;
     }
+
+    this.isLoading = true;
+    this.errorMessage = '';
+
+    this.authService.login(this.loginForm.value).subscribe({
+      next: (user) => {
+        this.isLoading = false;
+        setTimeout(() => {
+          this.authService.getUserInfo();
+          this.redirectToDashboard();
+        }, 100);
+      },
+      error: (error) => {
+        this.isLoading = false;
+        this.errorMessage = error?.error?.message || error.message || 'Login failed';
+      }
+    });
   }
 
   private redirectToDashboard() {
     const role = this.authService.userRole;
-    console.log('Redirecting user with role:', role); // Debug
-    
-    let targetRoute: string[] = [];
-    targetRoute = role ? [`/${role}/dashboard`] : ['/dashboard'];
-    this.router.navigate(['/dashboard'])
-    // switch (role) {
-    //   case 'super-admin':
-    //     targetRoute = ['/super-admin/dashboard'];
-    //     // या अगर second solution use किया है:
-    //     // targetRoute = ['/super-admin/dashboard'];
-    //     break;
-    //   case 'school-admin':
-    //     targetRoute = ['/main/school-admin'];
-    //     // या: targetRoute = ['/school-admin'];
-    //     break;
-    //   case 'parent':
-    //     targetRoute = ['/main/parent'];
-    //     // या: targetRoute = ['/parent'];
-    //     break;
-    //   default:
-    //     console.warn('Unknown role, redirecting to default dashboard'); // Debug
-    //     targetRoute = ['/main/dashboard'];
-    //     // या: targetRoute = ['/dashboard'];
-    // }
-    
-    console.log('Navigating to:', targetRoute); // Debug
-    
+
+    let targetRoute = ['/dashboard'];  // Default fallback
+
+    if (role === 'super-admin') {
+      targetRoute = ['/super-admin/dashboard'];
+    } else if (role === 'school-admin') {
+      targetRoute = ['/school-admin/dashboard'];
+    } else if (role === 'parent') {
+      targetRoute = ['/parent/dashboard'];
+    }
+
     this.router.navigate(targetRoute).then(
-      (success) => {
-        console.log('Navigation success:', success); // Debug
+      success => {
         if (!success) {
-          console.error('Navigation failed for route:', targetRoute); // Debug
+          console.error('Navigation failed');
         }
       },
-      (error) => {
-        console.error('Navigation error:', error); // Debug
-      }
+      error => console.error('Navigation error:', error)
     );
   }
 
-  // ✅ Debug method - call from template if needed
+  // Optional debug methods
   debugAuthState() {
     this.authService.getUserInfo();
   }
 
-  // ✅ Clear auth data - useful for testing
   clearAuthData() {
     this.authService.clearAuthData();
   }

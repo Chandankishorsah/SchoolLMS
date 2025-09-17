@@ -5,8 +5,9 @@ export interface User {
   role: 'super-admin' | 'school-admin' | 'parent';
   schoolId?: string;
   schoolName?: string;
-  avatar?: string;
-  createdAt: Date;
+  roleId?: string;
+  phoneNumber?: string;
+  status?: 'active' | 'inactive';
 }
 
 export interface LoginCredentials {

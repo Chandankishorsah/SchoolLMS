@@ -1,6 +1,9 @@
 import { CommonModule, NgClass, NgFor } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import { User } from '../../../../../core/models/user.model';
+import { Router } from '@angular/router';
+import { AdminService } from '../../../../../core/services/Admin/admin.service';
 interface SchoolManager {
   id: number;
   schoolName: string;
@@ -18,6 +21,7 @@ interface SchoolManager {
   styleUrl: './schools-manager.component.scss'
 })
 export class SchoolsManagerComponent {
+  currentuser:User= JSON.parse(localStorage.getItem('currentUser') || '{}');
 managers: SchoolManager[] = [
     { id: 1, schoolName: 'Green Valley High', managerName: 'Amit Sharma', email: 'amit@greenvalley.edu', role: 'Principal', phone: '9876543210', status: 'Active' },
     { id: 2, schoolName: 'Sunrise Public', managerName: 'Priya Singh', email: 'priya@sunrise.edu', role: 'Vice Principal', phone: '9876543211', status: 'Inactive' },
@@ -47,7 +51,7 @@ managers: SchoolManager[] = [
   ];
   managerForm:any= FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,private router:Router,private AdminService:AdminService) {
     this.managerForm = this.fb.group({
       schoolName: ['', [Validators.required, Validators.minLength(3)]],
       name: ['', [Validators.required, Validators.minLength(3)]],
@@ -63,10 +67,15 @@ managers: SchoolManager[] = [
   addManager() {
     if (this.managerForm.valid) {
       const newManager: SchoolManager = {
-        id: this.managers.length + 1,
+        roleId: this.currentuser.roleId,
         ...this.managerForm.value
       };
-      this.managers.push(newManager);
+      this.AdminService.CreateUser(newManager).subscribe({
+        next: (response:any) => {
+          console.log('School manager added successfully:', response);  
+
+    }})
+      // this.managers.push(newManager);
       this.managerForm.reset({ status: 'Active' });
     }
   }
