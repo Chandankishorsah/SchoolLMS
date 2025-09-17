@@ -3,6 +3,11 @@ table {
   border-radius: 10px;
   overflow: hidden;
 }
+table th,td{
+    text-align: center;
+    vertical-align: middle;
+    
+}
 
 h2 {
   font-weight: bold;

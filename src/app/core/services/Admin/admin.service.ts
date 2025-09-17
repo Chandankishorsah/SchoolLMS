@@ -15,13 +15,13 @@ export class AdminService {
     };
     return this.http.post(`${this.apiBaseUrl}/users`,data,{ headers });
   }
-  GetUsers()
+  GetUserByID(id:any)
   {
     const headers = {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${localStorage.getItem('token')}`
     };
-    return this.http.get(`${this.apiBaseUrl}/users`,{ headers });
+    return this.http.get(`${this.apiBaseUrl}/users/${id}`,{ headers });
   }
   UpdateUser(id:string,data:any){
     const headers = {
@@ -43,6 +43,43 @@ export class AdminService {
       Authorization: `Bearer ${localStorage.getItem('token')}`
     };
     return this.http.get(`${this.apiBaseUrl}/users`,{ headers });
+  }
+
+  GetAllSchools(){
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('token')}`
+    };
+    return this.http.get(`${this.apiBaseUrl}/schools`,{ headers });
+  }
+  CreateSchool(data:any){
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('token')}`
+    };
+    return this.http.post(`${this.apiBaseUrl}/schools`,data,{ headers });
+  }
+  UpdateSchool(id:string,data:any){
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('token')}`
+    };
+    return this.http.put(`${this.apiBaseUrl}/schools/${id}`,data,{ headers });
+  }
+  DeleteSchool(id:string){
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('token')}`
+    };
+    return this.http.delete(`${this.apiBaseUrl}/schools/${id}`,{ headers });
+  }
+  GetSchoolByID(id:any)
+  {
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('token')}`
+    };
+    return this.http.get(`${this.apiBaseUrl}/schools/${id}`,{ headers });
   }
   
 }
