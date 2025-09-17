@@ -43,8 +43,11 @@ export class SidebarComponent {
         this.menuItems = [
           { label: 'Dashboard', icon: 'fas fa-tachometer-alt', route: '/super-admin' },
           { label: 'Schools', icon: 'fas fa-school', route: '/super-admin/schools' },
-          { label: 'Reports', icon: 'fas fa-chart-bar', route: '/super-admin/reports' },
-          { label: 'Settings', icon: 'fas fa-cog', route: '/super-admin/settings' }
+          { label: 'Users', icon: 'fas fa-school', route: '/super-admin/schools/manager' },
+
+          // { label: 'Reports', icon: 'fas fa-chart-bar', route: '/super-admin/reports' },
+          // { label: 'Settings', icon: 'fas fa-cog', route: '/super-admin/settings' }
+
         ];
         break;
       case 'school-admin':

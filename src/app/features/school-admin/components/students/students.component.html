@@ -1,36 +1,41 @@
-<div class="students-page animate__animated animate__fadeIn">
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-          <h1 class="h3 mb-1">Students Management</h1>
-          <p class="text-muted mb-0">Manage student records and enrollments</p>
-        </div>
-        <button class="btn btn-primary">
-          <i class="fas fa-plus me-2"></i>Add New Student
-        </button>
-      </div>
+<div class="card shadow-sm">
+  <div class="card-body">
+    <h4 class="mb-3">Students Management</h4>
 
-      <div class="card border-0">
-        <div class="card-body">
-          <div class="table-responsive">
-            <table class="table table-hover">
-              <thead class="table-light">
-                <tr>
-                  <th>Student</th>
-                  <th>Grade</th>
-                  <th>Parent</th>
-                  <th>Fees Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td colspan="5" class="text-center py-4">
-                    <p class="mb-0 text-muted">Student data will be loaded here...</p>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
+    <table class="table table-hover align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>#</th>
+          <th>Student</th>
+          <th>Grade</th>
+          <th>Parent</th>
+          <th>Fees Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let s of students; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ s.name }}</td>
+          <td>{{ s.grade }}</td>
+          <td>{{ s.parent }}</td>
+          <td>
+            <span 
+              class="badge"
+              [ngClass]="{
+                'bg-success': s.feesStatus === 'Paid',
+                'bg-danger': s.feesStatus === 'Unpaid',
+                'bg-warning text-dark': s.feesStatus === 'Partial'
+              }">
+              {{ s.feesStatus }}
+            </span>
+          </td>
+          <td>
+            <button class="btn btn-sm btn-primary me-2">✏️ Edit</button>
+            <button class="btn btn-sm btn-danger">🗑 Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
