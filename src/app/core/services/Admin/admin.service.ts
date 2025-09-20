@@ -81,5 +81,11 @@ export class AdminService {
     };
     return this.http.get(`${this.apiBaseUrl}/schools/${id}`,{ headers });
   }
-  
+  GetAllRoles(){
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('token')}`
+    };
+    return this.http.get(`${this.apiBaseUrl}/roles`,{ headers });
+  }
 }

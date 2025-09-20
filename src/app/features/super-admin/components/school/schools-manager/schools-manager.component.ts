@@ -44,6 +44,7 @@ managers: SchoolManager[] = [];
   isSubmitted = false;
   isLoading = false;
   managerId:any;
+  roles: role[]=[];
   constructor(private fb: FormBuilder,private router:Router,private AdminService:AdminService) {
     this.managerForm = this.fb.group({
       schoolId: ['', [Validators.required]],
@@ -51,31 +52,58 @@ managers: SchoolManager[] = [];
       email: ['', [Validators.required, Validators.email]],
       phoneNumber: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-
+roleId: ['', [Validators.required]],
       status: ['active', Validators.required],
     });
 
-    // preload 25 dummy managers
+
   
   }
 get f() {
     return this.managerForm.controls;
   }
+   ngOnInit(){
+    this.getUsers();
+    this.getAllSchools();
+    this.GetAllRoles();
+  }
+
+  GetAllRoles(){
+    this.AdminService.GetAllRoles().subscribe({
+      next: (response:any) => {
+        console.log('Fetched roles:', response);
+        this.roles = response.data; 
+      },
+      error: (error) => {
+        console.error('Error fetching roles:', error);
+      }
+    }); 
+  }
   addManager() {
     if (this.managerForm.valid) {
-      const newManager: any = {
-        roleId: this.currentuser.roleId,
-        password:"123456",
-        ...this.managerForm.value
+      const newUser: any = {
+       
+      ...this.managerForm.value
       };
-      newManager.schoolId=Number(newManager.schoolId);
-      this.AdminService.CreateUser(newManager).subscribe({
+      newUser.schoolId=Number(newUser.schoolId);
+      newUser.roleId=Number(newUser.roleId);
+      this.AdminService.CreateUser(newUser).subscribe({
         next: (response:any) => {
           console.log('School manager added successfully:', response);  
+          if(response && response.data){
+            this.getUsers();
+            
+            this.managerForm.reset({ status: 'active' });
+            this.closeModal('addSchoolManagerModal');
+            alert(response.message);
+          }
 
-    }})
-      // this.managers.push(newManager);
-      // this.managerForm.reset({ status: 'active' });
+    }}),
+    (error: any) => {
+      console.error('Error adding school manager:', error); 
+      alert('Failed to add school manager. Please try again.');
+    };
+     
     }
   }
    openModal(id: any) {
@@ -85,6 +113,10 @@ get f() {
   }
 
   closeModal(id: any) {
+     this.f.schoolId.enable();
+    this.managerForm.reset({ status: 'active',schoolId:'',roleId:'' });
+
+   
     const modalEl = document.getElementById(id);
     const modal = bootstrap.Modal.getInstance(modalEl);
     if (modal) {
@@ -117,10 +149,7 @@ get f() {
     });
   }
 
-  ngOnInit(){
-    this.getUsers();
-    this.getAllSchools();
-  }
+ 
   getSchoolManagerDetails(id: any) {
     this.AdminService.GetUserByID(id).subscribe({
       next: (response: any) => {
@@ -132,8 +161,13 @@ get f() {
             name: response.data.name,
             email: response.data.email,
             phoneNumber: response.data.phoneNumber,
+            roleId: response.data.roleId,
+            password: response.data.password,
             status: response.data.status,
           });
+          this.f.password.clearValidators();
+          this.f.password.updateValueAndValidity();
+          this.f.schoolId.disable();
           this.openModal('editSchoolManagerModal');
         }
         // Handle the fetched school details as needed
@@ -173,18 +207,29 @@ get f() {
      UpdateSchoolManager() {
     if (this.managerForm.valid) {
       const updatedUser: any = {
-        roleId: this.currentuser.roleId,
-        ...this.managerForm.value,
+       
+      ...this.managerForm.value
       };
-      this.AdminService.UpdateSchool(this.managerId, updatedUser).subscribe({
+      updatedUser.schoolId=Number(updatedUser.schoolId);
+      updatedUser.roleId=Number(updatedUser.roleId);
+      this.AdminService.UpdateUser(this.managerId, updatedUser).subscribe({
         next: (response: any) => {
           alert(response.message);
+          if(response && response.data){
           console.log(' updated successfully:', response);
-          this.getAllSchools();
+          this.getUsers();
           this.managerForm.reset({ status: 'active' });
           this.closeModal('editSchoolManagerModal');
+          }
         },
       });
+      (error: any) => {
+        console.error('Error updating  manager:', error);
+        alert('Failed to update manager. Please try again.');
+      };
+
+
     }
+    
   }
 }
