@@ -59,28 +59,22 @@ export class LoginComponent {
     });
   }
 
-  private redirectToDashboard() {
-    const role = this.authService.userRole;
+ private redirectToDashboard() {
+  const role = this.authService.userRole;
 
-    let targetRoute = ['/dashboard'];  // Default fallback
+  let targetDomain = 'localhost:4200';  // fallback
+  let targetRoute = '/dashboard';
 
-    if (role === 'super-admin') {
-      targetRoute = ['/super-admin/dashboard'];
-    } else if (role === 'school-admin') {
-      targetRoute = ['/school-admin/dashboard'];
-    } else if (role === 'parent') {
-      targetRoute = ['/parent/dashboard'];
-    }
-
-    this.router.navigate(targetRoute).then(
-      success => {
-        if (!success) {
-          console.error('Navigation failed');
-        }
-      },
-      error => console.error('Navigation error:', error)
-    );
+  if (role === 'super-admin') {
+    targetDomain = 'superadmin.localhost:4200';
+  } else if (role === 'school-admin') {
+    targetDomain = 'schooladmin.localhost:4200';
+  } else if (role === 'parent') {
+    targetDomain = 'parent.localhost:4200';
   }
+
+  window.location.href = `http://${targetDomain}${targetRoute}`;
+}
 
   // Optional debug methods
   debugAuthState() {

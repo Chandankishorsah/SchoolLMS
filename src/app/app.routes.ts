@@ -7,6 +7,8 @@ export const routes: Routes = [
     redirectTo: 'auth/login',
     pathMatch: 'full',
   },
+
+  // 🔹 Auth Layout
   {
     path: 'auth',
     loadComponent: () =>
@@ -35,13 +37,15 @@ export const routes: Routes = [
       },
     ],
   },
+
+  // 🔹 Main Layout (Protected)
   {
     path: '',
     loadComponent: () =>
       import('./layouts/main-layout/main-layout.component').then(
         (m) => m.MainLayoutComponent
       ),
-    // canActivate: [authGuard], // ✅ future me enable karna
+    canActivate: [authGuard],   // ✅ guard enable
     children: [
       {
         path: 'dashboard',
@@ -56,15 +60,28 @@ export const routes: Routes = [
           import('./features/super-admin/super-admin.routes').then(
             (m) => m.superAdminRoutes
           ),
+        canActivate: [authGuard],   // ✅ subdomain + role check
       },
       {
-        path:'school-admin',
-        loadChildren: () => import('./features/school-admin/school-admin.routes').then(m => m.schoolAdminRoutes)
-
-      }
-      // yaha school-admin / parent bhi add kar sakta hai
+        path: 'school-admin',
+        loadChildren: () =>
+          import('./features/school-admin/school-admin.routes').then(
+            (m) => m.schoolAdminRoutes
+          ),
+        canActivate: [authGuard],   // ✅ subdomain + role check
+      },
+      // {
+      //   path: 'parent',
+      //   loadChildren: () =>
+      //     import('./features/parent/parent.routes').then(
+      //       (m) => m.parentRoutes
+      //     ),
+      //   canActivate: [authGuard],   // ✅ subdomain + role check
+      // },
     ],
   },
+
+  // 🔹 Wildcard fallback
   {
     path: '**',
     redirectTo: 'auth/login',

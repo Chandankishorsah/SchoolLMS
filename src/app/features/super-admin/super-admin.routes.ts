@@ -51,6 +51,9 @@ export const superAdminRoutes: Routes = [
           ),
       },
       {
+        path:'class',loadComponent:()=>import('./components/school/class/class.component').then((m)=>m.ClassComponent),
+      },
+      {
         path: '**',
         redirectTo: 'all',
       },

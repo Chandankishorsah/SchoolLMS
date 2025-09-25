@@ -307,7 +307,7 @@ export class SchoolsAllComponent {
     });
   }
   getSchoolDetails(id: any) {
-    this.AdminService.GetSchoolByID(id).subscribe({
+    this.AdminService.GetSchoolById(id).subscribe({
       next: (response: any) => {
         console.log('Fetched school details:', response);
         if (response && response.data) {
@@ -321,7 +321,7 @@ export class SchoolsAllComponent {
         }
         // Handle the fetched school details as needed
       },
-      error: (error) => {
+      error: (error:any) => {
         console.error('Error fetching school details:', error);
       },
     });

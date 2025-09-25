@@ -151,7 +151,7 @@ get f() {
 
  
   getSchoolManagerDetails(id: any) {
-    this.AdminService.GetUserByID(id).subscribe({
+    this.AdminService.GetUserById(id).subscribe({
       next: (response: any) => {
         console.log('Fetched school details:', response);
         if (response && response.data) {

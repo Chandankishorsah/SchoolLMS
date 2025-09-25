@@ -17,6 +17,9 @@ private authService = inject(AuthService);
 
   ngOnInit(): void {
     const user = this.authService.currentUser;
+     this.authService.GetDomain().subscribe((res:any)=>{
+      console.log(res)
+    })
     if (user) {
       this.redirectUser(user);
     } else {
@@ -25,6 +28,9 @@ private authService = inject(AuthService);
   }
 
   private redirectUser(user: User): void {
+    this.authService.GetDomain().subscribe((res:any)=>{
+      console.log(res)
+    })
     setTimeout(() => {
       switch (user.role) {
         case 'super-admin':

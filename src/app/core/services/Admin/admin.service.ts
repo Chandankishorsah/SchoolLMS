@@ -1,91 +1,84 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminService {
-  private apiBaseUrl = environment.apiUrl
-  constructor(private http:HttpClient) { }
-  CreateUser(data:any){
-    const headers = {
+  private apiBaseUrl = environment.apiUrl;
+
+  constructor(private http: HttpClient) {}
+
+  // Centralized headers
+  private get headers(): HttpHeaders {
+    return new HttpHeaders({
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('token')}`
-    };
-    return this.http.post(`${this.apiBaseUrl}/users`,data,{ headers });
-  }
-  GetUserByID(id:any)
-  {
-    const headers = {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('token')}`
-    };
-    return this.http.get(`${this.apiBaseUrl}/users/${id}`,{ headers });
-  }
-  UpdateUser(id:string,data:any){
-    const headers = {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('token')}`
-    };
-    return this.http.put(`${this.apiBaseUrl}/users/${id}`,data,{ headers });
-  }
-  DeleteUser(id:string){
-    const headers = {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('token')}`
-    };
-    return this.http.delete(`${this.apiBaseUrl}/users/${id}`,{ headers });
-  }
-  GetAllUsers(){
-    const headers = {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('token')}`
-    };
-    return this.http.get(`${this.apiBaseUrl}/users`,{ headers });
+      Authorization: `Bearer ${localStorage.getItem('token') || ''}`
+    });
   }
 
-  GetAllSchools(){
-    const headers = {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('token')}`
-    };
-    return this.http.get(`${this.apiBaseUrl}/schools`,{ headers });
+  // ---------- User APIs ----------
+  CreateUser(data: any) {
+    return this.http.post(`${this.apiBaseUrl}/users`, data, { headers: this.headers });
   }
-  CreateSchool(data:any){
-    const headers = {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('token')}`
-    };
-    return this.http.post(`${this.apiBaseUrl}/schools`,data,{ headers });
+
+  GetUserById(id: string | number) {
+    return this.http.get(`${this.apiBaseUrl}/users/${id}`, { headers: this.headers });
   }
-  UpdateSchool(id:string,data:any){
-    const headers = {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('token')}`
-    };
-    return this.http.put(`${this.apiBaseUrl}/schools/${id}`,data,{ headers });
+
+  UpdateUser(id: string | number, data: any) {
+    return this.http.put(`${this.apiBaseUrl}/users/${id}`, data, { headers: this.headers });
   }
-  DeleteSchool(id:string){
-    const headers = {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('token')}`
-    };
-    return this.http.delete(`${this.apiBaseUrl}/schools/${id}`,{ headers });
+
+  DeleteUser(id: string | number) {
+    return this.http.delete(`${this.apiBaseUrl}/users/${id}`, { headers: this.headers });
   }
-  GetSchoolByID(id:any)
-  {
-    const headers = {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('token')}`
-    };
-    return this.http.get(`${this.apiBaseUrl}/schools/${id}`,{ headers });
+
+  GetAllUsers() {
+    return this.http.get(`${this.apiBaseUrl}/users`, { headers: this.headers });
   }
-  GetAllRoles(){
-    const headers = {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('token')}`
-    };
-    return this.http.get(`${this.apiBaseUrl}/roles`,{ headers });
+
+  // ---------- School APIs ----------
+  CreateSchool(data: any) {
+    return this.http.post(`${this.apiBaseUrl}/schools`, data, { headers: this.headers });
+  }
+
+  GetAllSchools() {
+    return this.http.get(`${this.apiBaseUrl}/schools`, { headers: this.headers });
+  }
+
+  GetSchoolById(id: string | number) {
+    return this.http.get(`${this.apiBaseUrl}/schools/${id}`, { headers: this.headers });
+  }
+
+  UpdateSchool(id: string | number, data: any) {
+    return this.http.put(`${this.apiBaseUrl}/schools/${id}`, data, { headers: this.headers });
+  }
+
+  DeleteSchool(id: string | number) {
+    return this.http.delete(`${this.apiBaseUrl}/schools/${id}`, { headers: this.headers });
+  }
+
+  // ---------- Role APIs ----------
+  GetAllRoles() {
+    return this.http.get(`${this.apiBaseUrl}/roles`, { headers: this.headers });
+  }
+
+  // ---------- Class APIs ----------
+  CreateClass(data: any) {
+    return this.http.post(`${this.apiBaseUrl}/classes`, data, { headers: this.headers });
+  }
+
+  GetAllClasses() {
+    return this.http.get(`${this.apiBaseUrl}/classes`, { headers: this.headers });
+  }
+
+  GetClassById(id: string | number) {
+    return this.http.get(`${this.apiBaseUrl}/classes/${id}`, { headers: this.headers });
+  }
+
+  UpdateClass(id: string | number, data: any) {
+    return this.http.put(`${this.apiBaseUrl}/classes/${id}`, data, { headers: this.headers });
   }
 }

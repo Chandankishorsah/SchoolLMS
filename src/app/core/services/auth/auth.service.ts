@@ -27,10 +27,13 @@ export class AuthService {
 
   login(credentials: LoginCredentials): Observable<User> {
     return this.http.post<User>(`${this.apiBaseUrl}/auth/login`, credentials).pipe(
-      tap((user:any) => {
-if(user && user.data && user.data.user.roleId=='1'){
-  user.data.user.role='super-admin';
-}
+      tap((user: any) => {
+        if (user && user.data && user.data.user.roleId == '1') {
+          user.data.user.role = 'super-admin';
+        }
+        if (user && user.data && user.data.user.roleId == '3') {
+          user.data.user.role = 'school-admin';
+        }
         localStorage.setItem('currentUser', JSON.stringify(user.data.user));
         localStorage.setItem('token', user.data.token);
         this.currentUserSubject.next(user.data.user);
@@ -83,5 +86,8 @@ if(user && user.data && user.data.user.roleId=='1'){
   clearAuthData(): void {
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
+  }
+  GetDomain() {
+    return this.http.get(`${this.apiBaseUrl}/auth/domain`)
   }
 }

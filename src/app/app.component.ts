@@ -11,7 +11,7 @@ import { RouterOutlet } from '@angular/router';
 export class AppComponent {
   title = 'SchoolLMS';
   constructor() {
-    // localStorage.clear();
+    localStorage.clear();
     
   }
 }
