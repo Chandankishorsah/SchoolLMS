@@ -1,11 +1,25 @@
 <div class="card shadow-sm">
   <div class="card-body">
-    <h4 class="mb-3">Students Management</h4>
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <div>
+        <h2 class="mb-3 text-center"> <span><i class="fas fa-graduation-cap"></i>
+          </span> Students</h2>
+      </div>
+      <div>
+        <button class="btn btn-primary" (click)="AddStudents()">
+          <i class="fas fa-plus me-2"></i>Add New Student
+        </button>
+
+      </div>
+
+
+    </div>
 
     <table class="table table-hover align-middle">
       <thead class="table-light">
         <tr>
-          <th>#</th>
+          <th>S.N</th>
           <th>Student</th>
           <th>Grade</th>
           <th>Parent</th>
@@ -20,9 +34,7 @@
           <td>{{ s.grade }}</td>
           <td>{{ s.parent }}</td>
           <td>
-            <span 
-              class="badge"
-              [ngClass]="{
+            <span class="badge" [ngClass]="{
                 'bg-success': s.feesStatus === 'Paid',
                 'bg-danger': s.feesStatus === 'Unpaid',
                 'bg-warning text-dark': s.feesStatus === 'Partial'
@@ -37,5 +49,36 @@
         </tr>
       </tbody>
     </table>
+  </div>
+</div>
+
+
+
+<!-- Edit Student Modal -->
+<div class="modal fade" id="dynamicModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header bg-dark text-white">
+        <h5 class="modal-title">
+          @if(currentModalContent === 'addStudent') { Add Student } 
+          @if(currentModalContent === 'editStudent') { Edit Student }
+        </h5>
+        <button type="button" class="btn-close btn-close-white" (click)="closeModal()"></button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="modal-body">
+        @if(currentModalContent === 'addStudent') {
+          <app-student-add></app-student-add>
+        }
+        @if(currentModalContent === 'editStudent') {
+          <app-student-add></app-student-add>
+          <!-- You can pass student data via @Input() to edit -->
+        }
+      </div>
+
+    </div>
   </div>
 </div>

@@ -3,11 +3,13 @@ import { Observable, of, delay } from 'rxjs';
 import { FeeRecord } from '../../models/fee.model';
 import { School, Student } from '../../models/school.model';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
+  locationKey:any=environment.locationKey
   // Mock data
   private mockSchools: School[] = [
     {
@@ -255,9 +257,15 @@ export class DataService {
   }
 
   GetAllSates() {
-    return this.http.get('https://api.countrystatecity.in/v1/states')
+    const headers={
+      'X-CSCAPI-KEY':this.locationKey
+    }
+    return this.http.get('https://api.countrystatecity.in/v1/countries/IN/states',{headers})
   }
-  GetAllCities(state:any) {
-    return this.http.get(`https://restindia.herokuapp.com/cities?state=${state}`)
+  GetAllCities(stateCode:any) {
+     const headers={
+      'X-CSCAPI-KEY':this.locationKey
+    }
+    return this.http.get(`https://api.countrystatecity.in/v1/countries/IN/states/${stateCode}/cities`,{headers})
   }
 }

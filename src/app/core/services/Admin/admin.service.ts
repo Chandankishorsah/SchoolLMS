@@ -71,6 +71,7 @@ export class AdminService {
   }
 
   GetAllClasses() {
+    
     return this.http.get(`${this.apiBaseUrl}/classes`, { headers: this.headers });
   }
 

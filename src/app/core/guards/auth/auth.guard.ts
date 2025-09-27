@@ -21,7 +21,7 @@ export const authGuard: CanActivateFn = (route, state) => {
   if (role === 'super-admin' && hostname.startsWith('superadmin')) {
     return true;
   }
-  if (role === 'school-admin' && hostname.startsWith('schooladmin')) {
+  if (role === 'school-admin' && hostname.startsWith('school')) {
     return true;
   }
   if (role === 'parent' && hostname.startsWith('parent')) {

@@ -2,14 +2,21 @@ import { trigger, transition, style, animate, query, stagger, state } from '@ang
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AdminService } from '../../../../core/services/Admin/admin.service';
+import { SchoolService } from '../../../../core/services/school/school.service';
+import { tap, map, catchError, of } from 'rxjs';
+import { DataService } from '../../../../core/services/data/data.service';
+import { Students } from '../../../../core/models/school.model';
+import { User } from '../../../../core/models/user.model';
 
 @Component({
   selector: 'app-student-add',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './student-add.component.html',
   styleUrl: './student-add.component.scss',
-   animations: [
+  animations: [
     trigger('slideInUp', [
       transition(':enter', [
         style({ transform: 'translateY(100px)', opacity: 0 }),
@@ -40,66 +47,78 @@ import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angula
   ]
 })
 export class StudentAddComponent {
-studentForm: any=FormGroup;
+  currentuser: User = JSON.parse(localStorage.getItem('currentUser') || '{}');
+
+  studentForm: any = FormGroup;
   isSubmitting = false;
   showSuccess = false;
   currentStep = 1;
-  totalSteps = 3;
+  totalSteps = 2;
   buttonState = 'normal';
 
-  classes = [
-    'Kindergarten', 'Grade 1', 'Grade 2', 'Grade 3', 'Grade 4', 
-    'Grade 5', 'Grade 6', 'Grade 7', 'Grade 8', 'Grade 9', 
-    'Grade 10', 'Grade 11', 'Grade 12'
-  ];
-
+  // classes = [
+  //   'Kindergarten', 'Class 1', 'Class 2', 'Class 3', 'Class 4',
+  //   'Class 5', 'Class 6', 'Class 7', 'Class 8', 'Class 9',
+  //   'Class 10', 'Class 11', 'Class 12'
+  // ];
+classes:any=[]
   bloodGroups = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
+  states: any = [];
+  cities: any = [];
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private router: Router,
+    private adminService: AdminService, private schoolService: SchoolService,
+    private dataService: DataService
+  ) {
     this.studentForm = this.fb.group({
       // Personal Information
-      firstName: ['', [Validators.required, Validators.minLength(2)]],
-      lastName: ['', [Validators.required, Validators.minLength(2)]],
-      dateOfBirth: ['', Validators.required],
+      name: ['', [Validators.required, Validators.minLength(2)]],
+
+      date_of_birth: ['', Validators.required],
       gender: ['', Validators.required],
-      bloodGroup: [''],
       photo: [''],
-      
+
       // Academic Information
-      studentId: ['', Validators.required],
+      // studentId: ['', Validators.required],
       class: ['', Validators.required],
-      section: ['', [Validators.required, Validators.pattern('^[A-Z]$')]],
-      rollNumber: ['', Validators.required],
-      admissionDate: ['', Validators.required],
-      previousSchool: [''],
-      
+      // section: ['', [Validators.pattern('^[A-Z]$')]],
+      // rollNumber: ['',],
+      // admissionDate: ['',],
+      // previousSchool: [''],
+
       // Contact Information
       email: ['', [Validators.email]],
-      phone: ['', [Validators.pattern('^[0-9]{10}$')]],
-      address: ['', Validators.required],
-      city: ['', Validators.required],
+      primary_mobile_number: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+      whatsapp_number: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+      secondary_mobile_number: ['', [Validators.pattern('^[0-9]{10}$')]],
+
+      full_address: ['', Validators.required],
       state: ['', Validators.required],
+      city: ['', Validators.required],
       pincode: ['', [Validators.required, Validators.pattern('^[0-9]{6}$')]],
-      
+
       // Parent/Guardian Information
-      parentName: ['', Validators.required],
-      parentPhone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
-      parentEmail: ['', [Validators.email]],
-      parentOccupation: [''],
-      emergencyContact: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
-      
+      father_name: ['', Validators.required],
+      mother_name: ['', Validators.required],
+      local_guardian_name: ['', Validators.required],
+
+      // parentOccupation: [''],
+      // emergencyContact: ['', [Validators.pattern('^[0-9]{10}$')]],
+
       // Fee Information
-      feeCategory: ['Regular', Validators.required],
-      scholarship: [false],
-      scholarshipPercentage: [0],
-      transportFacility: [false],
-      hostelFacility: [false]
+      // feeCategory: ['Regular', Validators.required],
+      // scholarship: [false],
+      // scholarshipPercentage: [0],
+      // transportFacility: [false],
+      // hostelFacility: [false]
     });
   }
 
   ngOnInit(): void {
     // Auto-generate student ID
-    this.generateStudentId();
+    // this.generateStudentId();
+    this.GetAllClasses()
+    this.GetAllstate()
   }
 
   generateStudentId(): void {
@@ -122,27 +141,8 @@ studentForm: any=FormGroup;
     }
   }
 
-  onSubmit(): void {
-    if (this.studentForm.valid) {
-      this.isSubmitting = true;
-      
-      // Simulate API call
-      setTimeout(() => {
-        this.isSubmitting = false;
-        this.showSuccess = true;
-        
-        // Reset form after success
-        setTimeout(() => {
-          this.showSuccess = false;
-          this.studentForm.reset();
-          this.currentStep = 1;
-          this.generateStudentId();
-        }, 3000);
-      }, 2000);
-    } else {
-      this.markFormGroupTouched();
-    }
-  }
+ 
+
 
   markFormGroupTouched(): void {
     Object.keys(this.studentForm.controls).forEach(key => {
@@ -168,5 +168,112 @@ studentForm: any=FormGroup;
 
   onMouseLeave(): void {
     this.buttonState = 'normal';
+  }
+  GetAllClasses() {
+    this.adminService.GetAllClasses().pipe(
+      tap(() => console.log("API call started")),   // side effect (logging)
+      map((res: any) => res.data || res),           // transform the response
+      catchError((err) => {
+        console.error("Error fetching classes:", err);
+        return of([]); // return empty array on error, so app doesn't crash
+      })
+    ).subscribe({
+      next: (classes) => {
+        console.log("Classes fetched:", classes);
+        this.classes = classes;
+      },
+      complete: () => console.log("API call completed")
+    });
+  }
+
+  GetAllstate() {
+    this.dataService.GetAllSates().subscribe((res: any) => {
+      console.log(res, "state data ")
+      this.states = res;
+    })
+  }
+  onStateChange(event: any) {
+    const selectedOption = event.target.selectedOptions[0];
+    const stateCode = selectedOption.getAttribute('data-code'); // API ke liye
+    const stateName = event.target.value; // Form ke liye (ye save hoga)
+
+    if (stateCode) {
+      this.GetCity(stateCode);
+    }
+  }
+
+  GetCity(stateCode: string) {
+    this.dataService.GetAllCities(stateCode).subscribe((res: any) => {
+      this.cities = res;
+    });
+  }
+
+   onSubmit(): void {
+    if (this.studentForm.valid) {
+      this.isSubmitting = true;
+
+      // Simulate API call
+      // setTimeout(() => {
+      //   this.isSubmitting = false;
+      //   this.showSuccess = true;
+
+      //   // Reset form after success
+      //   setTimeout(() => {
+      //     this.showSuccess = false;
+      //     this.studentForm.reset();
+      //     this.currentStep = 1;
+      //     this.generateStudentId();
+      //   }, 3000);
+      // }, 2000);
+      this.addStudent()
+    } else {
+      this.markFormGroupTouched();
+    }
+  }
+
+  addStudent() {
+    if (this.studentForm.invalid) {
+      this.studentForm.markAllAsTouched();
+      return;
+    }
+
+    const Addrees = this.studentForm.get('state')?.value + ' ' + this.studentForm.get('city')?.value + ' ' + this.studentForm.get('full_address').value;
+    const dob = this.studentForm.get('date_of_birth')?.value
+    const student: Students = {
+      name: this.studentForm.get('name')?.value,
+      date_of_birth: dob,
+      full_address: Addrees,
+      school_id: Number(this.currentuser.schoolId),
+
+
+      gender: this.studentForm.get('gender').value,
+      father_name: this.studentForm.get('father_name').value,
+      mother_name: this.studentForm.get('mother_name').value,
+      local_guardian_name: this.studentForm.get('local_guardian_name').value,
+      primary_mobile_number: this.studentForm.get('primary_mobile_number').value,
+      secondary_mobile_number: this.studentForm.get('secondary_mobile_number').value,
+      whatsapp_number: this.studentForm.get('whatsapp_number').value,
+      email: this.studentForm.get('email').value,
+    };
+console.log(student,"students")
+// return
+    this.schoolService.addStudent(student).subscribe({
+      next: (res: any) => {
+        console.log('Student added successfully:', res);
+        this.studentForm.reset();
+        if(res.status=='error'){
+          localStorage.clear();
+          window.location.href=''
+        }
+      },
+      error: (err: any) => {
+
+      }
+    });
+  }
+  OnPinChange(){
+    this.studentForm.get('full_address').value=this.studentForm.get('state').value+' '+this.studentForm.get('city').value+' '+
+    this.studentForm.get('pincode').value
+
   }
 }

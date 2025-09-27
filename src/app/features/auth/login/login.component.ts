@@ -65,13 +65,13 @@ export class LoginComponent {
   let targetDomain = 'localhost:4200';  // fallback
   let targetRoute = '/dashboard';
 
-  if (role === 'super-admin') {
-    targetDomain = 'superadmin.localhost:4200';
-  } else if (role === 'school-admin') {
-    targetDomain = 'schooladmin.localhost:4200';
-  } else if (role === 'parent') {
-    targetDomain = 'parent.localhost:4200';
-  }
+  // if (role === 'super-admin') {
+  //   targetDomain = 'superadmin.localhost:4200';
+  // } else if (role === 'school-admin') {
+  //   targetDomain = 'school.localhost:4200';
+  // } else if (role === 'parent') {
+  //   targetDomain = 'parent.localhost:4200';
+  // }
 
   window.location.href = `http://${targetDomain}${targetRoute}`;
 }

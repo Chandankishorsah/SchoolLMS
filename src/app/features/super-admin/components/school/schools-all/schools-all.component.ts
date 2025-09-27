@@ -278,16 +278,19 @@ export class SchoolsAllComponent {
     }
   }
 
-  openModal(id: any) {
-    const modalEl = document.getElementById(id);
-    const modal = new bootstrap.Modal(modalEl);
-    modal.show();
-  }
+   openModal(id: any) {
+    const modalElement = document.getElementById(id); // Get modal element
 
+    if (modalElement) {
+      const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+      modal.show();
+    }
+  }
   closeModal(id: any) {
-    const modalEl = document.getElementById(id);
-    const modal = bootstrap.Modal.getInstance(modalEl);
-    if (modal) {
+    const modalElement = document.getElementById(id); // Get modal element
+
+    if (modalElement) {
+      const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
       modal.hide();
     }
   }

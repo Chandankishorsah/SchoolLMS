@@ -1,12 +1,13 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
+import { Students } from '../../models/school.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SchoolService {
-  private readonly apiBaseUrl = `${environment.apiUrl}/classes`;
+  private readonly apiBaseUrl = `${environment.apiUrl}`;
 
   constructor(private http: HttpClient) {}
 
@@ -17,19 +18,19 @@ export class SchoolService {
     });
   }
 
-  createClass(data: any) {
-    return this.http.post(this.apiBaseUrl, data, { headers: this.headers });
+  getAllStudents(){
+
+  }
+  addStudent(student:Students){
+
+   return this.http.post(`${this.apiBaseUrl}/students`,student,{headers:this.headers})
+  }
+  getStudentById(){
+
+  }
+  updateStudent(){
+
   }
 
-  getAllClasses() {
-    return this.http.get(this.apiBaseUrl, { headers: this.headers });
-  }
-
-  getClassById(id: string | number) {
-    return this.http.get(`${this.apiBaseUrl}/${id}`, { headers: this.headers });
-  }
-
-  updateClass(id: string | number, data: any) {
-    return this.http.put(`${this.apiBaseUrl}/${id}`, data, { headers: this.headers });
-  }
+  
 }

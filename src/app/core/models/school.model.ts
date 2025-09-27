@@ -33,3 +33,18 @@ export interface Student {
   lastPayment?: Date;
   status: 'paid' | 'unpaid' | 'partial';
 }
+
+export interface Students{
+  school_id: number;
+  name: string;
+  date_of_birth: Date;
+  gender: "Male" | "Female" | "Other";
+  father_name: string;
+  mother_name: string;
+  local_guardian_name: string;
+  full_address: string;
+  primary_mobile_number: string;
+  secondary_mobile_number: string;
+  whatsapp_number: string;
+  email: string;
+}

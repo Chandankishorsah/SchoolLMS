@@ -45,7 +45,7 @@ export const routes: Routes = [
       import('./layouts/main-layout/main-layout.component').then(
         (m) => m.MainLayoutComponent
       ),
-    canActivate: [authGuard],   // ✅ guard enable
+    // canActivate: [authGuard],   // ✅ guard enable
     children: [
       {
         path: 'dashboard',
@@ -60,7 +60,7 @@ export const routes: Routes = [
           import('./features/super-admin/super-admin.routes').then(
             (m) => m.superAdminRoutes
           ),
-        canActivate: [authGuard],   // ✅ subdomain + role check
+        // canActivate: [authGuard],   // ✅ subdomain + role check
       },
       {
         path: 'school-admin',
@@ -68,7 +68,7 @@ export const routes: Routes = [
           import('./features/school-admin/school-admin.routes').then(
             (m) => m.schoolAdminRoutes
           ),
-        canActivate: [authGuard],   // ✅ subdomain + role check
+        // canActivate: [authGuard],   // ✅ subdomain + role check
       },
       // {
       //   path: 'parent',
@@ -76,7 +76,7 @@ export const routes: Routes = [
       //     import('./features/parent/parent.routes').then(
       //       (m) => m.parentRoutes
       //     ),
-      //   canActivate: [authGuard],   // ✅ subdomain + role check
+      //   // canActivate: [authGuard],   // ✅ subdomain + role check
       // },
     ],
   },

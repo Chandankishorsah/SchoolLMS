@@ -1,88 +1,94 @@
 <div class="container py-4">
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <h2 class="fw-bold">
-      <i class="fas fa-chalkboard me-2"></i> Classes
-    </h2>
-    <button class="btn btn-primary shadow-sm" (click)="openModal()">
-      <i class="fas fa-plus-circle me-1"></i> Add Class
-    </button>
-  </div>
-
-  <!-- Class List -->
-  <div class="row g-3">
-    <div
-      class="col-md-4"
-      *ngFor="let cls of classes; let i = index"
-      [@fadeIn]>
-      <div class="card class-card shadow-sm h-100">
-        <div class="card-body">
-          <h5 class="card-title">
-            <i class="fas fa-book-open me-2 text-primary"></i>
-            {{ cls.name }}
-          </h5>
-          <p class="card-text text-muted mb-2">Section: {{ cls.section }}</p>
-          <p class="card-text">
-            <span class="badge bg-info">Students: {{ cls.students }}</span>
-          </p>
-          <div class="d-flex justify-content-end gap-2">
-            <button class="btn btn-sm btn-outline-secondary" (click)="editClass(i)">
-              <i class="fas fa-edit"></i>
-            </button>
-            <button class="btn btn-sm btn-outline-danger" (click)="deleteClass(i)">
-              <i class="fas fa-trash"></i>
-            </button>
-          </div>
-        </div>
-      </div>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="fw-bold">
+            <i class="fas fa-chalkboard me-2"></i> Classes
+        </h2>
+        <button class="btn btn-primary shadow-sm" (click)="openModal()">
+            <i class="fas fa-plus-circle me-1"></i> Add Class
+        </button>
     </div>
-  </div>
+
+    <!-- Class List -->
+    <div class="row g-3">
+        <div class="col-md-4" *ngFor="let cls of classes; let i = index" [@fadeIn]>
+            <div class="card class-card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-book-open me-2 text-primary"></i>
+                        {{ cls.name }}
+                    </h5>
+                    <!-- <p class="card-text text-muted mb-2">Section: {{ cls.section }}</p> -->
+                    <!-- <p class="card-text">
+            <span class="badge bg-info">Students: {{ cls.students }}</span>
+          </p> -->
+                    <div class="d-flex justify-content-end gap-2">
+                        <button class="btn btn-sm btn-outline-secondary" (click)="editClass(i)">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <!-- <button class="btn btn-sm btn-outline-danger" (click)="deleteClass(i)">
+                            <i class="fas fa-trash"></i>
+                        </button> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Modal -->
 <div class="modal fade" id="classModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content shadow-lg border-0">
-      <div class="modal-header bg-primary text-white">
-        <h5 class="modal-title">
-          <i class="fas fa-chalkboard me-2"></i>
-          {{ editIndex !== null ? 'Edit Class' : 'Add Class' }}
-        </h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        <form [formGroup]="classForm" (ngSubmit)="saveClass()">
-          <div class="mb-3">
-            <label class="form-label">Class Name</label>
-            <input type="text" class="form-control" formControlName="name" />
-            <div class="text-danger small" *ngIf="classForm.get('name')?.touched && classForm.get('name')?.invalid">
-              Name is required (min 2 chars).
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-lg border-0">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">
+                    <i class="fas fa-chalkboard me-2"></i>
+                    {{ editIndex !== null ? 'Edit Class' : 'Add Class' }}
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
-          </div>
+            <div class="modal-body">
+                <form [formGroup]="classForm" (ngSubmit)="saveClass()">
+                    <div class="mb-3">
+                        <label class="form-label">Class Name</label>
+                        <select class="form-select" formControlName="name">
+                            <option value="" disabled>Select Class</option>
 
-          <div class="mb-3">
+                            @for (c of classList; track c) {
+                            <option [value]="c">{{ c }}</option>
+                            }
+                        </select>
+
+                        <div class="text-danger small"
+                            *ngIf="classForm.get('name')?.touched && classForm.get('name')?.invalid">
+                            Please select a class.
+                        </div>
+                    </div>
+
+
+                    <!-- <div class="mb-3">
             <label class="form-label">Section</label>
             <input type="text" class="form-control" formControlName="section" />
             <div class="text-danger small" *ngIf="classForm.get('section')?.touched && classForm.get('section')?.invalid">
               Section is required (max 5 chars).
             </div>
-          </div>
+          </div> -->
 
-          <div class="mb-3">
+                    <!-- <div class="mb-3">
             <label class="form-label">No. of Students</label>
             <input type="number" class="form-control" formControlName="students" />
             <div class="text-danger small" *ngIf="classForm.get('students')?.touched && classForm.get('students')?.invalid">
               Must be at least 1 student.
             </div>
-          </div>
+          </div> -->
 
-          <div class="d-flex justify-content-end">
-            <button type="button" class="btn btn-light me-2" data-bs-dismiss="modal">Cancel</button>
-            <button type="submit" class="btn btn-success" [disabled]="classForm.invalid">
-              <i class="fas fa-save me-1"></i> Save
-            </button>
-          </div>
-        </form>
-      </div>
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn btn-light me-2" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-success" [disabled]="classForm.invalid">
+                            <i class="fas fa-save me-1"></i> Save
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-  </div>
 </div>

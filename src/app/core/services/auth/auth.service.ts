@@ -31,7 +31,10 @@ export class AuthService {
         if (user && user.data && user.data.user.roleId == '1') {
           user.data.user.role = 'super-admin';
         }
-        if (user && user.data && user.data.user.roleId == '3') {
+        if (user && user.data && user.data.user.roleId == '2') {
+          user.data.user.role = 'school-admin';
+        }
+         if (user && user.data && user.data.user.roleId == '3') {
           user.data.user.role = 'school-admin';
         }
         localStorage.setItem('currentUser', JSON.stringify(user.data.user));

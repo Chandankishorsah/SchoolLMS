@@ -1,5 +1,8 @@
 import { CommonModule, NgClass } from '@angular/common';
 import { Component } from '@angular/core';
+import { StudentAddComponent } from '../student-add/student-add.component';
+import { ActivatedRoute, Router } from '@angular/router';
+declare var bootstrap:any
 interface Student {
   id: number;
   name: string;
@@ -10,7 +13,7 @@ interface Student {
 @Component({
   selector: 'app-students',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, StudentAddComponent],
   templateUrl: './students.component.html',
   styleUrl: './students.component.scss'
 })
@@ -42,4 +45,33 @@ students: Student[] = [
     { id: 24, name: 'Kavya Menon', grade: '7th', parent: 'Sajith Menon', feesStatus: 'Partial' },
     { id: 25, name: 'Yash Thakur', grade: '6th', parent: 'Vinod Thakur', feesStatus: 'Paid' }
   ];
+  constructor(private router:Router,private route: ActivatedRoute){
+
+  }
+     currentModalContent: 'addStudent' | 'editStudent' | null = null;
+
+  openModal(content: 'addStudent' | 'editStudent') {
+    this.currentModalContent = content;
+
+    const modalEl = document.getElementById('dynamicModal');
+    if (modalEl) {
+      const modal = new bootstrap.Modal(modalEl);
+      modal.show();
+    }
+  }
+
+  closeModal() {
+    const modalEl = document.getElementById('dynamicModal');
+    if (modalEl) {
+      const modal = bootstrap.Modal.getInstance(modalEl);
+      modal?.hide();
+    }
+    this.currentModalContent = null;
+  }
+AddStudents() {
+  this.router.navigate(['../student-add'], { 
+    relativeTo: this.route,
+    replaceUrl: true
+  });
+}
 }
