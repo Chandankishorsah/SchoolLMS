@@ -16,39 +16,58 @@
 
     </div>
 
-    <table class="table table-hover align-middle">
-      <thead class="table-light">
-        <tr>
-          <th>S.N</th>
-          <th>Student</th>
-          <th>Grade</th>
-          <th>Parent</th>
-          <th>Fees Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let s of students; let i = index">
-          <td>{{ i + 1 }}</td>
-          <td>{{ s.name }}</td>
-          <td>{{ s.grade }}</td>
-          <td>{{ s.parent }}</td>
-          <td>
-            <span class="badge" [ngClass]="{
-                'bg-success': s.feesStatus === 'Paid',
-                'bg-danger': s.feesStatus === 'Unpaid',
-                'bg-warning text-dark': s.feesStatus === 'Partial'
-              }">
-              {{ s.feesStatus }}
-            </span>
-          </td>
-          <td>
-            <button class="btn btn-sm btn-primary me-2">✏️ Edit</button>
-            <button class="btn btn-sm btn-danger">🗑 Delete</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+   <div class="table-responsive">
+      <table class="table table-hover  align-middle">
+        <thead class="table-light">
+          <tr class="text-center">
+            <th>S.N</th>
+            <th>Name</th>
+            <th>ID</th>
+            <th>Gender</th>
+            <th>Mobile</th>
+            <th>Email</th>
+            <th>WhatsApp</th>
+            <th>Father Name</th>
+            <th>Mother Name</th>
+            <th>Address</th>
+            <th>Class</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let s of students; let i = index">
+            <td class="text-center">{{ i + 1 }}</td>
+            <td>{{ s.name }}</td>
+            <td>{{ s.student_id }}</td>
+            <td>{{ s.gender }}</td>
+            <td>{{ s.primary_mobile_number }}</td>
+            <td style="max-width: 160px; white-space: normal; word-wrap: break-word;">
+              {{ s.email }}
+            </td>
+            <td>{{ s.whatsapp_number }}</td>
+            <td>{{ s.father_name }}</td>
+            <td>{{ s.mother_name }}</td>
+            <td style="max-width: 180px; white-space: normal; word-wrap: break-word;">
+              {{ s.full_address }}
+            </td>
+            <td>{{ s.class }}</td>
+            <td class="text-center">
+                <button class="btn btn-sm btn-outline-success action-btn me-2"
+                             title="View">
+                            <i class="fa fa-eye"></i>
+                        </button>
+                        <!-- <button class="btn btn-sm btn-outline-primary action-btn me-2" title="Edit">
+                            <i class="fa fa-pencil"></i>
+                            </button> -->
+                        <button class="btn btn-sm btn-outline-danger action-btn" title="Delete"
+                            >
+                            <i class="fa fa-trash"></i>
+                        </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 
@@ -74,7 +93,7 @@
           <app-student-add></app-student-add>
         }
         @if(currentModalContent === 'editStudent') {
-          <app-student-add></app-student-add>
+          <app-student-edit></app-student-edit>
           <!-- You can pass student data via @Input() to edit -->
         }
       </div>

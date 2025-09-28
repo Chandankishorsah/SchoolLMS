@@ -1,15 +1,11 @@
- .card {
-      border-radius: 15px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-    }
-
-  
-
-.table th {
-  font-weight: 600;
+table th ,td{
+    text-align: center;
+    vertical-align: middle;
+    word-wrap: break-word;
+    font-size: 14px;
 }
+tbody tr td{
+    padding: 10px 5px;
+        // padding: inherit;
 
-.badge {
-  font-size: 0.85rem;
-  padding: 6px 10px;
 }

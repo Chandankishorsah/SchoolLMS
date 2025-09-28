@@ -56,12 +56,12 @@ export class StudentAddComponent {
   totalSteps = 2;
   buttonState = 'normal';
 
-  // classes = [
-  //   'Kindergarten', 'Class 1', 'Class 2', 'Class 3', 'Class 4',
-  //   'Class 5', 'Class 6', 'Class 7', 'Class 8', 'Class 9',
-  //   'Class 10', 'Class 11', 'Class 12'
-  // ];
-classes:any=[]
+  classes = [
+    'Kindergarten', 'Class 1', 'Class 2', 'Class 3', 'Class 4',
+    'Class 5', 'Class 6', 'Class 7', 'Class 8', 'Class 9',
+    'Class 10', 'Class 11', 'Class 12'
+  ];
+// classes:any=[]
   bloodGroups = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
   states: any = [];
   cities: any = [];
@@ -117,7 +117,7 @@ classes:any=[]
   ngOnInit(): void {
     // Auto-generate student ID
     // this.generateStudentId();
-    this.GetAllClasses()
+    // this.GetAllClasses()
     this.GetAllstate()
   }
 

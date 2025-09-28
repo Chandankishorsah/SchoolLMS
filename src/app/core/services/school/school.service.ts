@@ -19,7 +19,7 @@ export class SchoolService {
   }
 
   getAllStudents(){
-
+return this.http.get<{data:Students[]}>(`${this.apiBaseUrl}/students`,{headers:this.headers})
   }
   addStudent(student:Students){
 
