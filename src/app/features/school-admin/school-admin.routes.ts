@@ -42,6 +42,13 @@ export const schoolAdminRoutes: Routes = [
       ),
   },
   {
+    path: 'student-enrollment',
+    loadComponent: () =>
+      import('./components/student-entrollment/student-entrollment.component').then(
+        (m) => m.StudentEntrollmentComponent
+      ),
+  },
+  {
     path: '**',
     redirectTo: 'dashboard',
   },

@@ -1,0 +1,44 @@
+<nav class="nav-container">
+  <ul class="nav-list">
+    <li 
+      class="nav-item" 
+      [class.active]="activeTab === 'home'" 
+      (click)="setTab('home')"
+    >
+      Home
+    </li>
+    <li 
+      class="nav-item" 
+      [class.active]="activeTab === 'about'" 
+      (click)="setTab('about')"
+    >
+      About
+    </li>
+    <li 
+      class="nav-item" 
+      [class.active]="activeTab === 'services'" 
+      (click)="setTab('services')"
+    >
+      Services
+    </li>
+    <li 
+      class="nav-item" 
+      [class.active]="activeTab === 'contact'" 
+      (click)="setTab('contact')"
+    >
+      Contact
+    </li>
+  </ul>
+</nav>
+<!-- Tab Content Section -->
+<div class="tab-content mt-3">
+  <div *ngIf="activeTab === 'home'" class="tab-pane fade show active">
+    <!-- <app-home></app-home> -->
+  </div>
+  <div *ngIf="activeTab === 'about'" class="tab-pane fade show active">
+    <!-- <app-about></app-about> -->
+  </div>
+  <div *ngIf="activeTab === 'contact'" class="tab-pane fade show active">
+    <!-- <app-contact></app-contact> -->
+  </div>
+</div>
