@@ -47,7 +47,7 @@ students: any=[];
   GetAllStudents() {
     this.schoolService.getAllStudents().subscribe((res:any)=>{
       console.log('All Students:', res);  
-      this.students = res.data.data;   }
+      this.students = res.data;   }
     )
   }
   ngOnInit(): void {

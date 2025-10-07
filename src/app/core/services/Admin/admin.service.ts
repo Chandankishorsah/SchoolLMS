@@ -8,7 +8,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class AdminService {
   private apiBaseUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // Centralized headers
   private get headers(): HttpHeaders {
@@ -71,7 +71,7 @@ export class AdminService {
   }
 
   GetAllClasses() {
-    
+
     return this.http.get(`${this.apiBaseUrl}/classes`, { headers: this.headers });
   }
 
@@ -82,4 +82,21 @@ export class AdminService {
   UpdateClass(id: string | number, data: any) {
     return this.http.put(`${this.apiBaseUrl}/classes/${id}`, data, { headers: this.headers });
   }
+
+  CreateAcademicYear(body: any) {
+    return this.http.post(`${this.apiBaseUrl}/academic-years`, body, { headers: this.headers })
+  }
+  GetAllAcademicYear() {
+    return this.http.get(`${this.apiBaseUrl}/academic-years`, { headers: this.headers })
+  }
+  GetAcademicYearById(id: any) {
+    return this.http.get(`${this.apiBaseUrl}/academic-years/${id}`, { headers: this.headers })
+  }
+  UpdateAcademicYear(body: any, id: any) {
+    return this.http.put(`${this.apiBaseUrl}/academic-years/${id}`, body, { headers: this.headers })
+  }
+  DeleteAcademicYear(id: any) {
+    return this.http.delete(`${this.apiBaseUrl}/academic-years/${id}`, { headers: this.headers })
+  }
 }
+

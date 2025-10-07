@@ -34,7 +34,7 @@ export interface Student {
   status: 'paid' | 'unpaid' | 'partial';
 }
 
-export interface Students{
+export interface Students {
   school_id: number;
   name: string;
   date_of_birth: Date;
@@ -47,4 +47,11 @@ export interface Students{
   secondary_mobile_number: string;
   whatsapp_number: string;
   email: string;
+}
+export interface AcademicYear {
+  year: string,
+  start_date: string,//yyyy-mm-dd
+  end_date: string,//yyyy-mm-dd
+  is_current: boolean, // optional
+  is_active: boolean // optional
 }

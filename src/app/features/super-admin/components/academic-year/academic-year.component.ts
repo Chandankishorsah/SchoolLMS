@@ -1,28 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { trigger, transition, style, animate } from '@angular/animations';
-import { AdminService } from '../../../../../core/services/Admin/admin.service';
-
+import { Component } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import { AdminService } from '../../../../core/services/Admin/admin.service';
+import { NgFor, NgIf } from '@angular/common';
 declare var bootstrap: any;
-
 @Component({
-  selector: 'app-class',
+  selector: 'app-academic-year',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './class.component.html',
-  styleUrls: ['./class.component.scss'],
-  animations: [
-    trigger('fadeIn', [
-      transition(':enter', [
-        style({ opacity: 0, transform: 'translateY(20px)' }),
-        animate('400ms ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
-      ])
-    ])
-  ]
+  imports: [ReactiveFormsModule,NgIf,NgFor],
+  templateUrl: './academic-year.component.html',
+  styleUrl: './academic-year.component.scss'
 })
-export class ClassComponent implements OnInit {
-  classes: any[] = [];
+export class AcademicYearComponent {
+ classes: any[] = [];
   classList: string[] = [];
   classForm:any= FormGroup;
   editIndex: number | null = null;

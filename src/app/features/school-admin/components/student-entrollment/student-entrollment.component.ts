@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
+import { StudentAddComponent } from "../student-add/student-add.component";
 
 @Component({
   selector: 'app-student-entrollment',
   standalone: true,
-  imports: [],
+  imports: [StudentAddComponent],
   templateUrl: './student-entrollment.component.html',
   styleUrl: './student-entrollment.component.scss'
 })

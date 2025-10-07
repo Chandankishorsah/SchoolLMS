@@ -112,7 +112,7 @@
                 <label class="form-label fw-medium">Class *</label>
                 <select class="form-select" formControlName="class" [class.is-invalid]="isFieldInvalid('class')">
                   <option value="">Select Class</option>
-                  <option *ngFor="let cls of classes" [value]="cls">{{ cls }}</option>
+                  <option *ngFor="let cls of classes" [value]="cls.id">{{ cls.name }}</option>
                 </select>
                 <div class="invalid-feedback" *ngIf="isFieldInvalid('class')">
                   Class is required

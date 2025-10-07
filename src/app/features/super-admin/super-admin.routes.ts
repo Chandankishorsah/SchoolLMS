@@ -13,7 +13,7 @@ export const superAdminRoutes: Routes = [
         (m) => m.DashboardComponent
       ),
   },
- 
+
   {
     path: 'schools',
     children: [
@@ -51,7 +51,10 @@ export const superAdminRoutes: Routes = [
           ),
       },
       {
-        path:'class',loadComponent:()=>import('./components/school/class/class.component').then((m)=>m.ClassComponent),
+        path: 'class', loadComponent: () => import('./components/school/class/class.component').then((m) => m.ClassComponent),
+      },
+      {
+        path: 'academic-year', loadComponent: () => import('./components/academic-year/academic-year.component').then((m) => m.AcademicYearComponent)
       },
       {
         path: '**',
@@ -59,5 +62,5 @@ export const superAdminRoutes: Routes = [
       },
     ],
   },
- 
+
 ];

@@ -45,6 +45,8 @@ export class SidebarComponent {
           { label: 'Schools', icon: 'fas fa-school', route: '/super-admin/schools' },
           { label: 'Users', icon: 'fas fa-user-tie', route: '/super-admin/schools/manager' },
           { label: 'Class', icon: 'fas fa-chalkboard', route: '/super-admin/schools/class' },
+          { label: 'Academic Year', icon: 'fa-solid fa-calendar-alt', route: '/super-admin/schools/academic-year' },
+
 
 
           // { label: 'Reports', icon: 'fas fa-chart-bar', route: '/super-admin/reports' },
