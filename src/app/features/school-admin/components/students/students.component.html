@@ -23,6 +23,7 @@
             <th>S.N</th>
             <th>Name</th>
             <th>ID</th>
+            <th>Roll No.</th>
             <th>Gender</th>
             <th>Mobile</th>
             <th>Email</th>
@@ -39,6 +40,7 @@
             <td class="text-center">{{ i + 1 }}</td>
             <td>{{ s.name }}</td>
             <td>{{ s.student_id }}</td>
+            <td>{{ s?.enrollment?.roll_number ||''}}</td>
             <td>{{ s.gender }}</td>
             <td>{{ s.primary_mobile_number }}</td>
             <td style="max-width: 160px; white-space: normal; word-wrap: break-word;">
@@ -50,7 +52,7 @@
             <td style="max-width: 180px; white-space: normal; word-wrap: break-word;">
               {{ s.full_address }}
             </td>
-            <td>{{ s.class }}</td>
+            <td>{{ s?.enrollment?.class?.name ||''}}</td>
             <td class="text-center">
                 <button class="btn btn-sm btn-outline-success action-btn me-2"
                              title="View">
