@@ -1,32 +1,208 @@
 <div class="nav-container">
   <ul class="nav nav-pills nav-list" id="pills-tab" role="tablist">
     <li class="nav-item" role="presentation">
-      <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#pills-student-information" type="button">
+      <button
+        class="nav-link active"
+        id="pills-student-information-tab"
+        data-bs-toggle="pill"
+        data-bs-target="#pills-student-information"
+        type="button"
+        (click)="setActiveTab('basic')"
+      >
         Basic Information
       </button>
     </li>
     <li class="nav-item" role="presentation">
-      <button class="nav-link" data-bs-toggle="pill" data-bs-target="#pills-khasra-info" type="button">
-      Academic Information
-
+      <button
+        class="nav-link"
+        id="pills-academic-information-tab"
+        data-bs-toggle="pill"
+        data-bs-target="#pills-academic-information"
+        type="button"
+        (click)="setActiveTab('academic')"
+      >
+        Academic Information
       </button>
     </li>
     <li class="nav-item" role="presentation">
-      <button class="nav-link" data-bs-toggle="pill" data-bs-target="#pills-field-info" type="button">
-       Fee Structure
+      <button
+        class="nav-link"
+        id="pills-field-info-tab"
+        data-bs-toggle="pill"
+        data-bs-target="#pills-field-info"
+        type="button"
+        (click)="setActiveTab('fee')"
+      >
+        Fee Structure
       </button>
     </li>
-   
   </ul>
 </div>
 
 <div class="tab-content" id="pills-tabContent">
-  <div class="tab-pane fade show active" id="pills-student-information" role="tabpanel" aria-labelledby="pills-student-information-tab"
-    tabindex="0">
+  <!-- Basic Information Tab -->
+  <div
+    class="tab-pane fade show active"
+    id="pills-student-information"
+    role="tabpanel"
+    aria-labelledby="pills-student-information-tab"
+  >
     <div class="acountContent container-fluid py-4">
- 
-      <app-student-add></app-student-add>
+      @if (activeTab == 'basic') {
+        <app-student-add></app-student-add>
+      }
     </div>
+  </div>
 
+  <!-- Academic Information Tab -->
+  <div
+    class="tab-pane fade"
+    id="pills-academic-information"
+    role="tabpanel"
+    aria-labelledby="pills-academic-information-tab"
+  >
+    <div class="container py-4 animate-form">
+      <div class="card shadow-lg border-0">
+        <div class="card-body">
+          <h4 class="text-center mb-4 fw-bold">🎓 Student Enrollment Form</h4>
+
+          <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+            <div class="row g-3">
+              <!-- Student ID -->
+              <div class="col-md-6">
+                <label class="form-label">Student ID <span class="text-danger">*</span></label>
+                <input type="number" class="form-control" formControlName="student_id" placeholder="Enter student ID" />
+                <div class="text-danger small mt-1" *ngIf="submitted && form.controls['student_id'].invalid">
+                  Student ID is required
+                </div>
+              </div>
+
+              <!-- Class -->
+              <div class="col-md-6">
+                <label class="form-label">Class <span class="text-danger">*</span></label>
+                <select class="form-select" formControlName="class_id">
+                  <option value="null">Select Class</option>
+                  @for (c of classes; track $index) {
+                    <option [value]="c.id">{{ c.name }}</option>
+                  }
+                </select>
+                <div class="text-danger small mt-1" *ngIf="submitted && form.controls['class_id'].invalid">
+                  Class is required
+                </div>
+              </div>
+
+              <!-- Academic Year -->
+              <div class="col-md-6">
+                <label class="form-label">Academic Year <span class="text-danger">*</span></label>
+                <select class="form-select" formControlName="academic_year_id">
+                  <option value="null">Select Year</option>
+                  @for (y of academicYears; track $index) {
+                    <option [value]="y.id">{{ y.name }}</option>
+                  }
+                </select>
+                <div class="text-danger small mt-1" *ngIf="submitted && form.controls['academic_year_id'].invalid">
+                  Academic year is required
+                </div>
+              </div>
+
+              <!-- Roll Number -->
+              <div class="col-md-6">
+                <label class="form-label">Roll Number <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" formControlName="roll_number" placeholder="Enter roll number" />
+                <div class="text-danger small mt-1" *ngIf="submitted && form.controls['roll_number'].invalid">
+                  Roll number is required
+                </div>
+              </div>
+
+              <!-- Result Status -->
+              <div class="col-md-6">
+                <label class="form-label">Result Status</label>
+                <select class="form-select" formControlName="result_status">
+                  @for (status of resultStatuses; track $index) {
+                    <option [value]="status">{{ status }}</option>
+                  }
+                </select>
+              </div>
+
+              <!-- Is Current -->
+              <div class="col-md-6">
+                <label class="form-label">Is Current</label>
+                <select class="form-select" formControlName="is_current">
+                  <option [ngValue]="true">Yes</option>
+                  <option [ngValue]="false">No</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Optional Fields Toggle -->
+            <div class="text-center mt-4">
+              <button type="button" class="btn btn-outline-primary" (click)="toggleOptional()" type="button">
+                {{ showOptional ? 'Hide Optional Fields ▲' : 'Show Optional Fields ▼' }}
+              </button>
+            </div>
+
+            <!-- Optional Fields -->
+            <div [class.show-optional]="showOptional" class="collapse-optional mt-3">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label">Section</label>
+                  <select class="form-select" formControlName="section">
+                    <option value="">Select Section</option>
+                    @for (s of sections; track $index) {
+                      <option [value]="s">{{ s }}</option>
+                    }
+                  </select>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label">Enrollment Date</label>
+                  <input type="date" class="form-control" formControlName="enrollment_date" />
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label">Completion Date</label>
+                  <input type="date" class="form-control" formControlName="completion_date" />
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label">Promoted To Class</label>
+                  <select class="form-select" formControlName="promoted_to_class_id">
+                    <option value="null">Select Next Class</option>
+                    @for (c of classes; track $index) {
+                      <option [value]="c.id">{{ c.name }}</option>
+                    }
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Submit -->
+            <div class="text-center mt-4">
+              <button
+  type="submit"
+  class="btn btn-primary px-4"
+  [disabled]="isSubmitting"
+>
+  <span *ngIf="!isSubmitting">Submit Enrollment</span>
+  <span *ngIf="isSubmitting">Submitting...</span>
+</button>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fee Structure Tab -->
+  <div
+    class="tab-pane fade"
+    id="pills-field-info"
+    role="tabpanel"
+    aria-labelledby="pills-field-info-tab"
+  >
+    <div class="container py-4">
+      <h5>Fee Structure Coming Soon...</h5>
+    </div>
   </div>
 </div>

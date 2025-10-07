@@ -81,7 +81,6 @@
 .nav-container {
   position: sticky;
   top: 0;
-  z-index: 1000;
   background-color: #ffffff;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
   padding: 0.5rem 0;
@@ -140,4 +139,180 @@
 .nav-link.active::after {
   width: 100%;
 }
+
+.form-container {
+  max-width: 650px;
+  margin: 50px auto;
+  background: linear-gradient(135deg, #ffffff, #f3f8ff);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 1s ease-in-out;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #2a4d8f;
+  font-weight: 700;
+}
+
+.form-grid {
+  display: grid;
+  gap: 15px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.req {
+  color: red;
+}
+
+.form-group input,
+.form-group select {
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #2a4d8f;
+  box-shadow: 0 0 5px rgba(42, 77, 143, 0.3);
+}
+
+.optional-btn {
+  background: #eaf1ff;
+  border: none;
+  color: #2a4d8f;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.optional-btn:hover {
+  background: #d4e2ff;
+}
+
+.submit-btn {
+  background: #2a4d8f;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.submit-btn:hover {
+  background: #1e3870;
+}
+
+/* Toggle Switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 45px;
+  height: 22px;
+}
+
+.switch input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  background-color: #ccc;
+  border-radius: 22px;
+  top: 0; left: 0;
+  right: 0; bottom: 0;
+  transition: 0.4s;
+}
+
+.slider:before {
+  content: "";
+  position: absolute;
+  height: 18px;
+  width: 18px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #2a4d8f;
+}
+
+input:checked + .slider:before {
+  transform: translateX(23px);
+}
+
+/* Animations */
+// .fade-in {
+//   animation: fadeIn 1s ease;
+// }
+
+// .fade-slide {
+//   animation: slideDown 0.5s ease;
+// }
+
+// @keyframes fadeIn {
+//   from {opacity: 0; transform: translateY(15px);}
+//   to {opacity: 1; transform: translateY(0);}
+// }
+
+// @keyframes slideDown {
+//   from {opacity: 0; transform: scaleY(0);}
+//   to {opacity: 1; transform: scaleY(1);}
+// }
+
+.animate-form {
+  animation: fadeInUp 0.7s ease-in-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Optional field slide toggle animation */
+.collapse-optional {
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.5s ease;
+  opacity: 0;
+}
+.collapse-optional.show-optional {
+  max-height: 500px;
+  opacity: 1;
+}
+
+/* Optional: minor beautify tweaks */
+.card {
+  border-radius: 12px;
+}
+.form-label {
+  font-weight: 600;
+}
+
 
