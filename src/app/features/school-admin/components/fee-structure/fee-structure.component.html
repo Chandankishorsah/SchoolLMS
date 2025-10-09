@@ -1,0 +1,116 @@
+<div class="container mt-4">
+  <!-- <h3>🎓 Fee Structure</h3>
+  <button class="btn btn-primary mb-3" (click)="addNew()">+ Add Fee Structure</button> -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h1 class="h3 mb-1">🎓 Fee Structure</h1>
+    </div>
+    <button
+      class="btn btn-primary"
+    
+      (click)="addNew()"
+    >
+      <i class="fas fa-plus me-2"></i>Add New Fee Structure
+    </button>
+  </div>
+
+  <table class="table table-bordered table-striped">
+    <thead class="table-light">
+      <tr>
+        <th>S.N</th>
+        <th>Class </th>
+        <th>Academic Year</th>
+        <th>Amount</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let fee of feeList; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ fee.class_id }}</td>
+        <td>{{ fee.academic_year.year }}</td>
+        <td>{{ fee.amount }}</td>
+        <td>
+          <span [class.text-success]="fee.is_active" [class.text-danger]="!fee.is_active">
+            {{ fee.is_active ? 'Active' : 'Inactive' }}
+          </span>
+        </td>
+       
+         <td class="text-center">
+              <button class="btn btn-sm btn-outline-success action-btn me-2" title="View" (click)="editFee(fee)">
+                <i class="fa fa-eye"></i>
+              </button>
+              <!-- <button class="btn btn-sm btn-outline-primary action-btn me-2" title="Edit">
+                            <i class="fa fa-pencil"></i>
+                            </button> -->
+              <button class="btn btn-sm btn-outline-danger action-btn" title="Delete" (click)="deleteFee(fee.id)">
+                <i class="fa fa-trash"></i>
+              </button>
+            </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ✅ Bootstrap Modal -->
+<div class="modal fade" id="feeModal" tabindex="-1" aria-labelledby="feeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-3 shadow">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="feeModalLabel">
+          {{ isEditMode ? 'Edit Fee Structure' : 'Add Fee Structure' }}
+        </h5>
+        <button type="button" class="btn-close" (click)="closeModal()"></button>
+      </div>
+
+      <div class="modal-body">
+        <form [formGroup]="feeForm" (ngSubmit)="saveFee()">
+          <div class="mb-3">
+             <label class="form-label">Class <span class="text-danger">*</span></label>
+                <select class="form-select" formControlName="class_id">
+                  <option value="null">Select Class</option>
+                  @for (c of classes; track $index) {
+                  <option [value]="c.id">{{ c.name }}</option>
+                  }
+                </select>
+                <div class="text-danger small mt-1" *ngIf="feeForm.controls['class_id'].invalid">
+                  Class is required
+                </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Academic Year <span class="text-danger">*</span></label>
+                <select class="form-select" formControlName="academic_year_id">
+                  <option value="null">Select Year</option>
+                  @for (y of academicYears; track $index) {
+                  <option [value]="y.id">{{ y.year }}</option>
+                  }
+                </select>
+                <div class="text-danger small mt-1" *ngIf=" feeForm.controls['academic_year_id'].invalid">
+                  Academic year is required
+                </div>
+          </div>
+
+          <div class="mb-3">
+            <label>Amount</label>
+            <input type="number" class="form-control" formControlName="amount" />
+          </div>
+
+          <!-- ✅ Dropdown instead of checkbox -->
+          <div class="mb-3">
+            <label>Status</label>
+            <select class="form-select" formControlName="is_active">
+              <option value="true">Active</option>
+              <option value="false">Inactive</option>
+            </select>
+          </div>
+
+          <button class="btn btn-success w-100" type="submit">
+            {{ isEditMode ? 'Update' : 'Add' }}
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

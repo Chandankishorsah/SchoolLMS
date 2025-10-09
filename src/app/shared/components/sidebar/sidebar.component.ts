@@ -58,7 +58,9 @@ export class SidebarComponent {
         this.menuItems = [
           { label: 'Dashboard', icon: 'fas fa-tachometer-alt', route: '/school-admin' },
           { label: 'Students', icon: 'fas fa-user-graduate', route: '/school-admin/students' },
-          { label: 'Fees', icon: 'fas fa-dollar-sign', route: '/school-admin/fees' },
+          // { label: 'Fees', icon: 'fas fa-dollar-sign', route: '/school-admin/fees' },
+          { label: 'Fees', icon: 'fas fa-dollar-sign', route: '/school-admin/fee-structure' },
+
           { label: 'Reports', icon: 'fas fa-chart-line', route: '/school-admin/reports' },
           { label: 'Settings', icon: 'fas fa-cog', route: '/school-admin/settings' }
         ];

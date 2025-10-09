@@ -69,5 +69,7 @@ ExportEnrollmentsToExcel(){
   DeleteFeeStructure(id:any){
     return this.http.delete(`${this.apiBaseUrl}/fee-structures/${id}`,{headers:this.headers})
   }
+
+  
   
 }

@@ -35,6 +35,14 @@ export const schoolAdminRoutes: Routes = [
       ),
   },
   {
+    path: 'fee-structure',
+    loadComponent: () =>
+      import('./components/fee-structure/fee-structure.component').then(
+        (m) => m.FeeStructureComponent
+      ),
+
+  },
+  {
     path: 'settings',
     loadComponent: () =>
       import('./components/settings/school-admin-settings/school-admin-settings.component').then(
