@@ -54,13 +54,13 @@ students: any=[];
     this.GetAllStudents()
   }
 AddStudents() {
-  this.router.navigate(['../student-add'], { 
+  this.router.navigate(['../student-enrollment'], { 
     relativeTo: this.route,
     replaceUrl: true
   });
 }
-EditStudents() {
-  this.router.navigate(['../student-edit'], { 
+EditStudents(id:any) {
+  this.router.navigate(['../student-enrollment',id], { 
     relativeTo: this.route,
     replaceUrl: true
   });

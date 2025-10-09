@@ -1,6 +1,6 @@
 import { trigger, transition, style, animate, query, stagger, state } from '@angular/animations';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AdminService } from '../../../../core/services/Admin/admin.service';
@@ -47,6 +47,9 @@ import { User } from '../../../../core/models/user.model';
   ]
 })
 export class StudentAddComponent {
+@Input() studentId: number | null = null; // From parent or URL
+  @Output() studentCreated = new EventEmitter<number>(); // Emit new student ID
+  @Output() studentUpdated = new EventEmitter<number>();
   currentuser: User = JSON.parse(localStorage.getItem('currentUser') || '{}');
 
   studentForm: any = FormGroup;
@@ -61,7 +64,7 @@ export class StudentAddComponent {
   //   'Class 5', 'Class 6', 'Class 7', 'Class 8', 'Class 9',
   //   'Class 10', 'Class 11', 'Class 12'
   // ];
-classes:any=[]
+  classes: any = []
   bloodGroups = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
   states: any = [];
   cities: any = [];
@@ -93,9 +96,9 @@ classes:any=[]
       secondary_mobile_number: ['', [Validators.pattern('^[0-9]{10}$')]],
 
       full_address: ['', Validators.required],
-      state: ['', Validators.required],
-      city: ['', Validators.required],
-      pincode: ['', [Validators.required, Validators.pattern('^[0-9]{6}$')]],
+      state: [''],
+      city: [''],
+      pincode: ['', [ Validators.pattern('^[0-9]{6}$')]],
 
       // Parent/Guardian Information
       father_name: ['', Validators.required],
@@ -115,12 +118,14 @@ classes:any=[]
   }
 
   ngOnInit(): void {
-    // Auto-generate student ID
-    // this.generateStudentId();
-    this.GetAllClasses()
-    this.GetAllstate()
-  }
+    this.GetAllClasses();
+    this.GetAllstate();
 
+    if (this.studentId) {
+      this.loadStudentDetails(this.studentId);
+    }
+
+  }
   generateStudentId(): void {
     const year = new Date().getFullYear();
     const randomNum = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
@@ -141,7 +146,7 @@ classes:any=[]
     }
   }
 
- 
+
 
 
   markFormGroupTouched(): void {
@@ -207,30 +212,39 @@ classes:any=[]
       this.cities = res;
     });
   }
-
-   onSubmit(): void {
+  onSubmit(): void {
     if (this.studentForm.valid) {
-      this.isSubmitting = true;
-
-      // Simulate API call
-      // setTimeout(() => {
-      //   this.isSubmitting = false;
-      //   this.showSuccess = true;
-
-      //   // Reset form after success
-      //   setTimeout(() => {
-      //     this.showSuccess = false;
-      //     this.studentForm.reset();
-      //     this.currentStep = 1;
-      //     this.generateStudentId();
-      //   }, 3000);
-      // }, 2000);
-      this.addStudent()
+      if (this.studentId) {
+        this.updateStudent(); // 👈 Edit mode
+      } else {
+        this.addStudent(); // 👈 Add mode
+      }
     } else {
       this.markFormGroupTouched();
     }
   }
+  updateStudent() {
+    const updatedStudent: Students = {
+      ...this.studentForm.value,
+      id: this.studentId,
+      school_id: Number(this.currentuser.schoolId),
+      full_address: this.studentForm.get('state')?.value + ' ' +
+        this.studentForm.get('city')?.value + ' ' +
+        this.studentForm.get('full_address')?.value
+    };
 
+    this.schoolService.updateStudent(updatedStudent, this.studentId!,).subscribe({
+      next: (res: any) => {
+        console.log('Student updated successfully:', res);
+        this.studentCreated.emit(this.studentId!); // optional event emit
+      },
+      error: (err) => {
+        console.error('Error updating student:', err);
+      }
+    });
+  }
+
+ 
   addStudent() {
     if (this.studentForm.invalid) {
       this.studentForm.markAllAsTouched();
@@ -255,25 +269,69 @@ classes:any=[]
       whatsapp_number: this.studentForm.get('whatsapp_number').value,
       email: this.studentForm.get('email').value,
     };
-console.log(student,"students")
-// return
+    console.log(student, "students")
+    // return
     this.schoolService.addStudent(student).subscribe({
       next: (res: any) => {
         console.log('Student added successfully:', res);
-        this.studentForm.reset();
-        if(res.status=='error'){
+       
+        if (res.status == 'error') {
           localStorage.clear();
-          window.location.href=''
+          window.location.href = ''
         }
+         this.studentCreated.emit(res.data.id);
+        this.studentForm.reset();
       },
       error: (err: any) => {
-
+window.location.href = ''
       }
     });
   }
-  OnPinChange(){
-    this.studentForm.get('full_address').value=this.studentForm.get('state').value+' '+this.studentForm.get('city').value+' '+
-    this.studentForm.get('pincode').value
+  OnPinChange() {
+    this.studentForm.get('full_address').value = this.studentForm.get('state').value + ' ' + this.studentForm.get('city').value + ' ' +
+      this.studentForm.get('pincode').value
 
   }
+
+  loadStudentDetails(id: number): void {
+    this.schoolService.getStudentById(id).subscribe({
+      next: (res: any) => {
+        const data = res?.data || res; // depends on your API structure
+        console.log('Loaded student details:', data);
+
+        // Split address if needed
+        const addressParts = (data.full_address || '').split(' ');
+        const state = addressParts[0] || '';
+        const city = addressParts[1] || '';
+        const address = addressParts.slice(2).join(' ') || '';
+
+        this.studentForm.patchValue({
+          name: data.name,
+          date_of_birth: data.date_of_birth,
+          gender: data.gender,
+          email: data.email,
+          primary_mobile_number: data.primary_mobile_number,
+          whatsapp_number: data.whatsapp_number,
+          secondary_mobile_number: data.secondary_mobile_number,
+          father_name: data.father_name,
+          mother_name: data.mother_name,
+          local_guardian_name: data.local_guardian_name,
+          state: state,
+          city: city,
+          full_address: address,
+          pincode: data.pincode || '',
+          class: data?.enrollment?.class?.id  || ''
+        });
+
+        // If you want cities to populate after state
+        if (state) {
+          this.GetCity(state);
+        }
+      },
+      error: (err) => {
+        console.error('Error loading student details:', err);
+      }
+    });
+  }
+
 }

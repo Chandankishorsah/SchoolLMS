@@ -456,10 +456,11 @@
                 </button>
 
                 <div class="d-flex gap-2">
+
                   <!-- Next Button -->
-                  <button type="button" class="btn btn-primary px-4" class="btn btn-primary px-4"
-                    *ngIf="currentStep < totalSteps; else submitButton" (click)="nextStep()"
-                    [@buttonHover]="buttonState" (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
+                  <button type="button" class="btn btn-primary px-4" *ngIf="currentStep < totalSteps; else submitButton"
+                    (click)="nextStep()" [@buttonHover]="buttonState" (mouseenter)="onMouseEnter()"
+                    (mouseleave)="onMouseLeave()">
 
                     <span *ngIf="!isSubmitting">
                       <i class="fas fa-arrow-right me-2"></i> Next
@@ -476,16 +477,18 @@
                       [@buttonHover]="buttonState" (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
 
                       <span *ngIf="!isSubmitting">
-                        <i class="fas fa-save me-2"></i> Add Student
+                        <i class="fas fa-save me-2"></i>
+                        {{ studentId ? 'Update Student' : 'Add Student' }}
                       </span>
                       <span *ngIf="isSubmitting">
                         <span class="spinner-border spinner-border-sm me-2"></span>
-                        Adding...
+                        {{ studentId ? 'Updating...' : 'Adding...' }}
                       </span>
                     </button>
                   </ng-template>
 
                 </div>
+
               </div>
             </div>
           </div>

@@ -16,7 +16,7 @@
 
     </div>
 
-   <div class="table-responsive">
+    <div class="table-responsive">
       <table class="table table-hover  align-middle">
         <thead class="table-light">
           <tr class="text-center">
@@ -54,17 +54,15 @@
             </td>
             <td>{{ s?.enrollment?.class?.name ||''}}</td>
             <td class="text-center">
-                <button class="btn btn-sm btn-outline-success action-btn me-2"
-                             title="View">
-                            <i class="fa fa-eye"></i>
-                        </button>
-                        <!-- <button class="btn btn-sm btn-outline-primary action-btn me-2" title="Edit">
+              <button class="btn btn-sm btn-outline-success action-btn me-2" title="View" (click)="EditStudents(s.id)">
+                <i class="fa fa-eye"></i>
+              </button>
+              <!-- <button class="btn btn-sm btn-outline-primary action-btn me-2" title="Edit">
                             <i class="fa fa-pencil"></i>
                             </button> -->
-                        <button class="btn btn-sm btn-outline-danger action-btn" title="Delete"
-                            >
-                            <i class="fa fa-trash"></i>
-                        </button>
+              <button class="btn btn-sm btn-outline-danger action-btn" title="Delete">
+                <i class="fa fa-trash"></i>
+              </button>
             </td>
           </tr>
         </tbody>
@@ -83,7 +81,7 @@
       <!-- Modal Header -->
       <div class="modal-header bg-dark text-white">
         <h5 class="modal-title">
-          @if(currentModalContent === 'addStudent') { Add Student } 
+          @if(currentModalContent === 'addStudent') { Add Student }
           @if(currentModalContent === 'editStudent') { Edit Student }
         </h5>
         <button type="button" class="btn-close btn-close-white" (click)="closeModal()"></button>
@@ -92,11 +90,11 @@
       <!-- Modal Body -->
       <div class="modal-body">
         @if(currentModalContent === 'addStudent') {
-          <app-student-add></app-student-add>
+        <app-student-add></app-student-add>
         }
         @if(currentModalContent === 'editStudent') {
-          <app-student-edit></app-student-edit>
-          <!-- You can pass student data via @Input() to edit -->
+        <app-student-edit></app-student-edit>
+        <!-- You can pass student data via @Input() to edit -->
         }
       </div>
 
