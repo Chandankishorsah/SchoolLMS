@@ -1,0 +1,41 @@
+/* ✅ Universal Responsive Fix for Tables */
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  white-space: nowrap;
+}
+
+/* ✅ Table text shrink on mobile */
+@media (max-width: 768px) {
+  table {
+    font-size: 13px;
+  }
+  th, td {
+    padding: 6px 8px !important;
+  }
+  .btn {
+    font-size: 12px;
+    padding: 3px 8px !important;
+  }
+}
+
+/* ✅ Responsive Modal Widths */
+@media (max-width: 576px) {
+  .modal-dialog {
+    max-width: 95% !important;
+    margin: 0 auto;
+  }
+}
+
+/* ✅ Make forms fluid on small screens */
+@media (max-width: 768px) {
+  input, select, textarea {
+    font-size: 14px !important;
+  }
+}
